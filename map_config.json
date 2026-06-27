@@ -1,0 +1,372 @@
+[
+  {
+    "map_id": 1,
+    "map_name": "马克羚诺也湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/1(马克羚诺也湖)/1_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "1图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 2,
+    "map_name": "埃尔克湖",
+    "initial_rotation": 113,
+    "files": {
+      "move_initial_to_sell": "自动化点位/2(埃尔克湖)/2_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "66:93",
+        "is_completed": true,
+        "water_rotation": 113,
+        "files": {
+          "move_sell_to_fishing": "自动化点位/2(埃尔克湖)/1(66.93)/2_1_sell_to_fishing.json"
+        },
+        "notes": "2图1号钓点（纯视觉重登版）"
+      }
+    ]
+  },
+  {
+    "map_id": 3,
+    "map_name": "惟有诺克河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/3(惟有诺克河)/3_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "3图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 4,
+    "map_name": "旧奥斯特罗格湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/4(旧奥斯特罗格湖)/4_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "4图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 5,
+    "map_name": "白河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/5(白河)/5_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "73:45",
+        "is_completed": true,
+        "water_rotation": -70,
+        "files": {
+          "move_sell_to_fishing": "自动化点位/5(白河)/1(73.45)/5_1_sell_to_fishing.json"
+        },
+        "notes": "5图1号钓点（纯视觉重登版）"
+      },
+      {
+        "point_id": 2,
+        "coordinate": "71:37",
+        "is_completed": true,
+        "water_rotation": -30,
+        "files": {
+          "move_sell_to_fishing": "自动化点位/5(白河)/2(71.37)/5_2_sell_to_fishing.json"
+        },
+        "notes": "5图2号钓点（纯视觉重登版）"
+      }
+    ]
+  },
+  {
+    "map_id": 6,
+    "map_name": "廓里湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/6(廓里湖)/6_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "6图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 7,
+    "map_name": "梅德韦杰湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/7(梅德韦杰湖)/7_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "7图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 8,
+    "map_name": "沃尔霍夫河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/8(沃尔霍夫河)/8_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "8图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 9,
+    "map_name": "北顿涅茨河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/9(北顿涅茨河)/9_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "9图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 10,
+    "map_name": "苏拉河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/10(苏拉河)/10_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "10图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 11,
+    "map_name": "拉多加湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/11(拉多加湖)/11_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "11图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 12,
+    "map_name": "琥珀湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/12(琥珀湖)/12_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "12图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 13,
+    "map_name": "拉多加湖群岛",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/13(拉多加湖群岛)/13_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "13图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 14,
+    "map_name": "阿赫图巴河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/14(阿赫图巴河)/14_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "14图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 15,
+    "map_name": "铜湖",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/15(铜湖)/15_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "15图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 16,
+    "map_name": "下通古斯卡河",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/16(下通古斯卡河)/16_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "16图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 17,
+    "map_name": "亚马河",
+    "initial_rotation": 50,
+    "files": {
+      "move_initial_to_sell": "自动化点位/17(亚马河)/17_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "17图1号钓点（待开发）"
+      }
+    ]
+  },
+  {
+    "map_id": 18,
+    "map_name": "挪威海",
+    "initial_rotation": 0,
+    "files": {
+      "move_initial_to_sell": "自动化点位/18(挪威海)/18_initial_to_sell.json"
+    },
+    "points": [
+      {
+        "point_id": 1,
+        "coordinate": "",
+        "is_completed": false,
+        "water_rotation": 0,
+        "files": {
+          "move_sell_to_fishing": ""
+        },
+        "notes": "18图1号钓点（待开发）"
+      }
+    ]
+  }
+]

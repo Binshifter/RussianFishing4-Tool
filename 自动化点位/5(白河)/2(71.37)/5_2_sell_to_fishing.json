@@ -1,0 +1,82 @@
+[
+  {
+    "type": "key_press",
+    "key": "Key.shift",
+    "timestamp": 0.798893
+  },
+  {
+    "type": "key_press",
+    "key": "w",
+    "timestamp": 1.278027
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 2.203001
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 2.34802
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 2.763046
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 4.791935
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 5.449057
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 5.690049
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 6.06902
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 6.572087
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 8.233047
+  },
+  {
+    "type": "key_release",
+    "key": "w",
+    "timestamp": 9.637039
+  },
+  {
+    "type": "key_press",
+    "key": "w",
+    "timestamp": 13.196059
+  },
+  {
+    "type": "key_release",
+    "key": "w",
+    "timestamp": 15.064923
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 15.516146
+  },
+  {
+    "type": "key_release",
+    "key": "Key.shift",
+    "timestamp": 15.576069
+  }
+]

@@ -1,0 +1,1563 @@
+{"fish_list": [
+  {
+    "name": "奥斯特罗格白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "斑点叉尾鮰",
+    "rare_weight": 14.0,
+    "super_rare_weight": 20.0,
+    "standard_weight": 1.2
+  },
+  {
+    "name": "斑点雀鳝",
+    "rare_weight": 3.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "斑点黑鲈",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.5,
+    "standard_weight": 0.4
+  },
+  {
+    "name": "玻璃梭鲈",
+    "rare_weight": 7.0,
+    "super_rare_weight": 9.0,
+    "standard_weight": 0.7
+  },
+  {
+    "name": "白刺盖太阳鱼",
+    "rare_weight": 1.35,
+    "super_rare_weight": 2.0,
+    "standard_weight": 0.22
+  },
+  {
+    "name": "白眼欧鳊",
+    "rare_weight": 0.6,
+    "super_rare_weight": 0.9,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "北极茴鱼",
+    "rare_weight": 2.0,
+    "super_rare_weight": 2.5,
+    "standard_weight": 0.3
+  },
+  {
+    "name": "北极红点鲑",
+    "rare_weight": 11.0,
+    "super_rare_weight": 16.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白化鲃鱼",
+    "rare_weight": 8.0,
+    "super_rare_weight": 12.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白化草鱼",
+    "rare_weight": 28.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "波罗的海鲟鱼",
+    "rare_weight": 200.0,
+    "super_rare_weight": 300.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "贝加尔白鲑",
+    "rare_weight": 6.0,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "勃氏西鲱",
+    "rare_weight": 0.7,
+    "super_rare_weight": 1.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白鲑鱼",
+    "rare_weight": 15.0,
+    "super_rare_weight": 25.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "波斯鲟",
+    "rare_weight": 100.0,
+    "super_rare_weight": 150.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白化鲇鱼",
+    "rare_weight": 100.0,
+    "super_rare_weight": 200.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "贝加尔雅罗鱼",
+    "rare_weight": 0.25,
+    "super_rare_weight": 0.39,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白北鲑",
+    "rare_weight": 25.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白斑红点鲑",
+    "rare_weight": 10.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "白斑角鲨",
+    "rare_weight": 7.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "冰岛海扇蛤",
+    "rare_weight": 0.35,
+    "super_rare_weight": 0.45,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "北大西洋长尾鳕",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "北方蓝鳍金枪鱼",
+    "rare_weight": 250.0,
+    "super_rare_weight": 400.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "北海平鲉",
+    "rare_weight": 9.0,
+    "super_rare_weight": 11.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "斑点月鱼",
+    "rare_weight": 140.0,
+    "super_rare_weight": 200.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "半裸狼绵鳚",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "常见拟鲤",
+    "rare_weight": 1.2,
+    "super_rare_weight": 2.0,
+    "standard_weight": 0.3
+  },
+  {
+    "name": "常见狗鱼",
+    "rare_weight": 12.0,
+    "super_rare_weight": 20.0,
+    "standard_weight": 1.0
+  },
+  {
+    "name": "铲鮰",
+    "rare_weight": 30.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 1.5
+  },
+  {
+    "name": "铲鲻",
+    "rare_weight": 30.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 1.5
+  },
+    {
+    "name": "铲鲴",
+    "rare_weight": 30.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 1.5
+  },
+  {
+    "name": "常见鮈鱼",
+    "rare_weight": 0.1,
+    "super_rare_weight": 0.16,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "长吻梅花鲈",
+    "rare_weight": 0.25,
+    "super_rare_weight": 0.35,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "赤梢鱼",
+    "rare_weight": 8.0,
+    "super_rare_weight": 13.0,
+    "standard_weight": 1.0
+  },
+  {
+    "name": "草鱼",
+    "rare_weight": 28.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "常见鲤鱼",
+    "rare_weight": 8.0,
+    "super_rare_weight": 12.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "长体西鲱",
+    "rare_weight": 0.65,
+    "super_rare_weight": 0.9,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "粗壮红点鲑",
+    "rare_weight": 5.0,
+    "super_rare_weight": 7.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "橙黄金锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "C2超级怪胎",
+    "rare_weight": 30.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "叉牙楔齿七鳃鳗",
+    "rare_weight": 0.07,
+    "super_rare_weight": 0.10,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "长吻黄盖鲽",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "长拟庸鲽",
+    "rare_weight": 4.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "丁鱥",
+    "rare_weight": 4.0,
+    "super_rare_weight": 6.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大口黑鲈",
+    "rare_weight": 6.0,
+    "super_rare_weight": 7.5,
+    "standard_weight": 0.6
+  },
+  {
+    "name": "淡水石首鱼",
+    "rare_weight": 13.5,
+    "super_rare_weight": 19.0,
+    "standard_weight": 1.0
+  },
+  {
+    "name": "大鼻软口鱼",
+    "rare_weight": 0.8,
+    "super_rare_weight": 1.3,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋鲑鱼",
+    "rare_weight": 30.0,
+    "super_rare_weight": 38.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "带形镜鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "带形镜鲤(白化)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "带形镜鲤(人面鲤)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "东方欧鳊",
+    "rare_weight": 4.4,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "短头梭鲃",
+    "rare_weight": 13.0,
+    "super_rare_weight": 18.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大口水牛鱼",
+    "rare_weight": 15.0,
+    "super_rare_weight": 20.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "丁克斯带形鲤",
+    "rare_weight": 35.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "丁克斯无鳞鲤",
+    "rare_weight": 35.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "丁克斯镜鲤",
+    "rare_weight": 35.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "董氏须鳅",
+    "rare_weight": 0.065,
+    "super_rare_weight": 0.08,
+    "standard_weight": 0.03
+  },
+  {
+    "name": "东西伯利亚茴鱼",
+    "rare_weight": 2.0,
+    "super_rare_weight": 2.5,
+    "standard_weight": 0.3
+  },
+  {
+    "name": "东西伯利亚鲟",
+    "rare_weight": 100.0,
+    "super_rare_weight": 150.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大鳞麻哈鱼",
+    "rare_weight": 40.0,
+    "super_rare_weight": 60.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大麻哈鱼",
+    "rare_weight": 8.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "达氏鳇",
+    "rare_weight": 500.0,
+    "super_rare_weight": 1000.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "单鳍鳕",
+    "rare_weight": 18.0,
+    "super_rare_weight": 24.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋狼鳚",
+    "rare_weight": 14.5,
+    "super_rare_weight": 19.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋鲭",
+    "rare_weight": 2.0,
+    "super_rare_weight": 2.8,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋鳕",
+    "rare_weight": 50.0,
+    "super_rare_weight": 65.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "短角大杜父鱼",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鲽鱼",
+    "rare_weight": 4.5,
+    "super_rare_weight": 5.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "多指鞭冠鮟鱇",
+    "rare_weight": 7.0,
+    "super_rare_weight": 9.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大菱鲆",
+    "rare_weight": 14.0,
+    "super_rare_weight": 18.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "钓鮟鱇",
+    "rare_weight": 35.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "帝王蟹",
+    "rare_weight": 7.5,
+    "super_rare_weight": 9.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋鲱",
+    "rare_weight": 0.8,
+    "super_rare_weight": 1.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "钝头鳐",
+    "rare_weight": 11.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋银鲛",
+    "rare_weight": 1.5,
+    "super_rare_weight": 2.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "大西洋白姑鱼",
+    "rare_weight": 65.0,
+    "super_rare_weight": 90.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鳄雀鳝",
+    "rare_weight": 70.0,
+    "super_rare_weight": 100.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "俄罗斯梭吻鲈",
+    "rare_weight": 1.4,
+    "super_rare_weight": 2.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "俄罗斯鲟",
+    "rare_weight": 50.0,
+    "super_rare_weight": 100.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "绯写锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "粉鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.4
+  },
+  {
+    "name": "葛氏鲈塘鳢",
+    "rare_weight": 0.4,
+    "super_rare_weight": 0.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "高白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑斑刺盖太阳鱼",
+    "rare_weight": 1.6,
+    "super_rare_weight": 2.2,
+    "standard_weight": 0.24
+  },
+  {
+    "name": "河斑马纹贻贝",
+    "rare_weight": 0.15,
+    "super_rare_weight": 0.21,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "河螯虾",
+    "rare_weight": 0.2,
+    "super_rare_weight": 0.33,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑鲩",
+    "rare_weight": 28.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "茴鱼",
+    "rare_weight": 3.2,
+    "super_rare_weight": 5.5,
+    "standard_weight": 0.4
+  },
+  {
+    "name": "湖鳟鱼",
+    "rare_weight": 10.0,
+    "super_rare_weight": 15.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "湖鱥",
+    "rare_weight": 0.1,
+    "super_rare_weight": 0.16,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "虹鳟",
+    "rare_weight": 10.0,
+    "super_rare_weight": 13.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑海欧白鱼",
+    "rare_weight": 0.5,
+    "super_rare_weight": 0.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "红鳍鱼",
+    "rare_weight": 1.5,
+    "super_rare_weight": 2.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑库图拟鲤",
+    "rare_weight": 5.5,
+    "super_rare_weight": 7.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑海欧洲鳇",
+    "rare_weight": 500.0,
+    "super_rare_weight": 1000.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "胡瓜鱼",
+    "rare_weight": 0.13,
+    "super_rare_weight": 0.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑口红点鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑白鲑",
+    "rare_weight": 3.5,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑背西鲱",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑牛胭脂鱼",
+    "rare_weight": 15.0,
+    "super_rare_weight": 20.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "红白锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "湖大吻鱥",
+    "rare_weight": 0.1,
+    "super_rare_weight": 0.16,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑尾叉牙七鳃鳗",
+    "rare_weight": 0.04,
+    "super_rare_weight": 0.06,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "湖拟鲤",
+    "rare_weight": 0.6,
+    "super_rare_weight": 0.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "花鲶",
+    "rare_weight": 5.0,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黄斑红点鲑",
+    "rare_weight": 10.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "红大麻哈鱼",
+    "rare_weight": 4.5,
+    "super_rare_weight": 6.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "花羔红点斑鲑",
+    "rare_weight": 7.5,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "海平鲉",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "花狼鱼",
+    "rare_weight": 17.0,
+    "super_rare_weight": 22.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑线鳕",
+    "rare_weight": 11.0,
+    "super_rare_weight": 13.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑长鲳",
+    "rare_weight": 24.0,
+    "super_rare_weight": 29.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "黑等鳍叉尾带鱼",
+    "rare_weight": 4.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "金鲫",
+    "rare_weight": 1.8,
+    "super_rare_weight": 2.9,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "金丁鱥",
+    "rare_weight": 4.0,
+    "super_rare_weight": 6.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "镜鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "金眼狼鲈",
+    "rare_weight": 1.75,
+    "super_rare_weight": 2.5,
+    "standard_weight": 0.25
+  },
+  {
+    "name": "江鳕",
+    "rare_weight": 9.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "镜鲤(白化)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "镜鲤(人面鲤)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "九棘刺",
+    "rare_weight": 0.07,
+    "super_rare_weight": 0.09,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "剑鱼",
+    "rare_weight": 300.0,
+    "super_rare_weight": 450.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "尖吻平鲉",
+    "rare_weight": 5.5,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "极北鳐",
+    "rare_weight": 8.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "廓里湖红点鲑",
+    "rare_weight": 22.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "廓里湖白鲑",
+    "rare_weight": 3.5,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "框形镜鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "框形镜鲤(人面鲤)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "框形镜鲤(白化)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "库图拟鲤",
+    "rare_weight": 5.0,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "库尔斯多夫丁鱥",
+    "rare_weight": 4.0,
+    "super_rare_weight": 6.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "宽鼻白鲑",
+    "rare_weight": 7.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "堪察加虹鳟",
+    "rare_weight": 8.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鲈鱼",
+    "rare_weight": 1.6,
+    "super_rare_weight": 2.7,
+    "standard_weight": 0.28
+  },
+  {
+    "name": "绿鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "蓝鳃太阳鱼",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.7,
+    "standard_weight": 0.2
+  },
+  {
+    "name": "拉多加鲑",
+    "rare_weight": 14.0,
+    "super_rare_weight": 20.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "棱鲱",
+    "rare_weight": 0.024,
+    "super_rare_weight": 0.028,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鲢鱼",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "拉多加白鲑",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "莱芒湖白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鳞鲤(白化)",
+    "rare_weight": 20.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鳞鲤(人面鲤)",
+    "rare_weight": 20.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "拉多加湖湖泊白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "拉多加鲟",
+    "rare_weight": 60.0,
+    "super_rare_weight": 80.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "里海七鳃鳗",
+    "rare_weight": 0.15,
+    "super_rare_weight": 0.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "里海西鲱",
+    "rare_weight": 0.25,
+    "super_rare_weight": 0.34,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "里海拟鲤",
+    "rare_weight": 0.5,
+    "super_rare_weight": 0.8,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "里海鲑鱼",
+    "rare_weight": 30.0,
+    "super_rare_weight": 50.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "裸腹鲟",
+    "rare_weight": 50.0,
+    "super_rare_weight": 70.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鲤鲫",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "莱文氏红点鲑",
+    "rare_weight": 1.6,
+    "super_rare_weight": 2.1,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "雷氏七鳃鳗",
+    "rare_weight": 0.04,
+    "super_rare_weight": 0.06,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "绿青鳕",
+    "rare_weight": 19.0,
+    "super_rare_weight": 25.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "蓝鳕",
+    "rare_weight": 0.9,
+    "super_rare_weight": 1.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "蓝鲯鳕",
+    "rare_weight": 25.0,
+    "super_rare_weight": 35.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "梅花鲈",
+    "rare_weight": 0.14,
+    "super_rare_weight": 0.22,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "美洲真鮰",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+  {
+    "name": "美洲真鯩",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+  {
+    "name": "美洲真鰶",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+  {
+    "name": "美洲真鯔",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+   {
+    "name": "美洲真鯽",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+     {
+    "name": "美洲真鯵",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+     {
+    "name": "美洲真鯝",
+    "rare_weight": 1.1,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.18
+  },
+  {
+    "name": "鳗鱼",
+    "rare_weight": 4.0,
+    "super_rare_weight": 7.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "美洲红点鲑",
+    "rare_weight": 5.0,
+    "super_rare_weight": 7.6,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鸣海浅黄锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "穆松白鲑",
+    "rare_weight": 6.0,
+    "super_rare_weight": 9.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "蒙古红鲌",
+    "rare_weight": 2.5,
+    "super_rare_weight": 3.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "马苏大麻哈鱼",
+    "rare_weight": 5.0,
+    "super_rare_weight": 6.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "马苏鱼",
+    "rare_weight": 6.5,
+    "super_rare_weight": 8.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "绵鳚",
+    "rare_weight": 0.9,
+    "super_rare_weight": 1.3,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "牡蛎",
+    "rare_weight": 0.3,
+    "super_rare_weight": 0.37,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "马舌鲽",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "姥鲨",
+    "rare_weight": 1300.0,
+    "super_rare_weight": 2500.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "泥鳅",
+    "rare_weight": 0.2,
+    "super_rare_weight": 0.25,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "拟鲌",
+    "rare_weight": 0.6,
+    "super_rare_weight": 0.9,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "内维红点鲑",
+    "rare_weight": 1.4,
+    "super_rare_weight": 1.7,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧鲌",
+    "rare_weight": 0.11,
+    "super_rare_weight": 0.16,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧鳊",
+    "rare_weight": 4.4,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧洲六须鲇",
+    "rare_weight": 100.0,
+    "super_rare_weight": 200.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧白鲑",
+    "rare_weight": 0.5,
+    "super_rare_weight": 0.8,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧飘鱼",
+    "rare_weight": 1.5,
+    "super_rare_weight": 2.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧洲鳇",
+    "rare_weight": 500.0,
+    "super_rare_weight": 1000.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧洲无须鳕",
+    "rare_weight": 9.0,
+    "super_rare_weight": 12.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧洲鱿鱼",
+    "rare_weight": 2.0,
+    "super_rare_weight": 2.4,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "欧洲康吉鳗",
+    "rare_weight": 60.0,
+    "super_rare_weight": 75.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "普通鲤鱼",
+    "rare_weight": 20.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "平腹多刺鱼",
+    "rare_weight": 0.07,
+    "super_rare_weight": 0.09,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "青蛙",
+    "rare_weight": 0.19,
+    "super_rare_weight": 0.25,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "犬首鮈",
+    "rare_weight": 0.15,
+    "super_rare_weight": 0.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "秋白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "青鳕",
+    "rare_weight": 11.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "上口欧鳊",
+    "rare_weight": 0.75,
+    "super_rare_weight": 1.1,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "梭鲈鱼",
+    "rare_weight": 8.0,
+    "super_rare_weight": 12.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "塞凡湖鳟",
+    "rare_weight": 9.0,
+    "super_rare_weight": 15.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "三花鲤鱼",
+    "rare_weight": 25.0,
+    "super_rare_weight": 35.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "三刺鱼",
+    "rare_weight": 0.07,
+    "super_rare_weight": 0.09,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "斯维里河白鲑",
+    "rare_weight": 3.5,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "闪光鲟",
+    "rare_weight": 50.0,
+    "super_rare_weight": 70.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "四白锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "沙丁鱼",
+    "rare_weight": 0.18,
+    "super_rare_weight": 0.24,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鼠鲨",
+    "rare_weight": 140.0,
+    "super_rare_weight": 190.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "食用蟹",
+    "rare_weight": 1.8,
+    "super_rare_weight": 2.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "石斑鱼",
+    "rare_weight": 60.0,
+    "super_rare_weight": 75.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "十指金眼鲷",
+    "rare_weight": 9.0,
+    "super_rare_weight": 12.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "条纹狼鲈",
+    "rare_weight": 30.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "太阳鱼",
+    "rare_weight": 0.65,
+    "super_rare_weight": 0.85,
+    "standard_weight": 0.1
+  },
+  {
+    "name": "驼背白鲑",
+    "rare_weight": 4.5,
+    "super_rare_weight": 6.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "驼背太阳鱼",
+    "rare_weight": 0.45,
+    "super_rare_weight": 0.6,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "图冈白鲑",
+    "rare_weight": 0.06,
+    "super_rare_weight": 0.07,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "图们江细鳞鲑",
+    "rare_weight": 7.5,
+    "super_rare_weight": 9.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "无鳞鲤",
+    "rare_weight": 30.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "文鳊",
+    "rare_weight": 1.5,
+    "super_rare_weight": 2.4,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "乌克兰七鳃鳗",
+    "rare_weight": 0.07,
+    "super_rare_weight": 0.08,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "瓦拉姆白鲑",
+    "rare_weight": 1.5,
+    "super_rare_weight": 2.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "武克希白鲑",
+    "rare_weight": 3.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "沃尔霍夫白鲑",
+    "rare_weight": 4.0,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "无鳞鲤(人面鲤)",
+    "rare_weight": 30.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "无鳞鲤(白化)",
+    "rare_weight": 30.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "小口黑鲈",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.1,
+    "standard_weight": 0.35
+  },
+  {
+    "name": "小冠太阳鱼",
+    "rare_weight": 1.7,
+    "super_rare_weight": 2.3,
+    "standard_weight": 0.23
+  },
+  {
+    "name": "小体鲟",
+    "rare_weight": 9.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "匈红鲤(鳞鲤)",
+    "rare_weight": 20.0,
+    "super_rare_weight": 30.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "匈红鲤(镜鲤)",
+    "rare_weight": 25.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "西伯利亚杜父鱼",
+    "rare_weight": 0.045,
+    "super_rare_weight": 0.055,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "小白鲑",
+    "rare_weight": 0.8,
+    "super_rare_weight": 1.1,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "西西伯利亚茴鱼",
+    "rare_weight": 2.0,
+    "super_rare_weight": 2.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "细鳞鲑",
+    "rare_weight": 5.5,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.7
+  },
+  {
+    "name": "西伯利亚小体鲟",
+    "rare_weight": 9.0,
+    "super_rare_weight": 14.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "小头睡鲨",
+    "rare_weight": 600.0,
+    "super_rare_weight": 900.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "小齿狼鱼",
+    "rare_weight": 13.0,
+    "super_rare_weight": 17.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "银鲫",
+    "rare_weight": 1.9,
+    "super_rare_weight": 3.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "银鲷鱼",
+    "rare_weight": 0.8,
+    "super_rare_weight": 1.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "圆腹雅罗鱼",
+    "rare_weight": 4.0,
+    "super_rare_weight": 6.5,
+    "standard_weight": 0.5
+  },
+  {
+    "name": "眼点丽鱼",
+    "rare_weight": 4.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.45
+  },
+  {
+    "name": "雅罗鱼",
+    "rare_weight": 0.25,
+    "super_rare_weight": 0.39,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "亚速海拟鲤",
+    "rare_weight": 1.3,
+    "super_rare_weight": 1.8,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鳙鱼",
+    "rare_weight": 30.0,
+    "super_rare_weight": 45.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "圆点五色锦鲤",
+    "rare_weight": 25.0,
+    "super_rare_weight": 32.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "亚洲胡瓜鱼",
+    "rare_weight": 0.27,
+    "super_rare_weight": 0.32,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "亚口鱼",
+    "rare_weight": 1.8,
+    "super_rare_weight": 2.2,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "银鳟鱼",
+    "rare_weight": 5.5,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "庸鲽",
+    "rare_weight": 150.0,
+    "super_rare_weight": 220.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "牙鳕",
+    "rare_weight": 3.0,
+    "super_rare_weight": 4.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "伊氏狼绵鳚",
+    "rare_weight": 2.5,
+    "super_rare_weight": 3.3,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "贻贝",
+    "rare_weight": 0.13,
+    "super_rare_weight": 0.15,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "圆鳍鱼",
+    "rare_weight": 6.0,
+    "super_rare_weight": 7.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鲟鳕",
+    "rare_weight": 30.0,
+    "super_rare_weight": 40.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "诸子鲦",
+    "rare_weight": 4.0,
+    "super_rare_weight": 7.0,
+    "standard_weight": 0.5
+  },
+  {
+    "name": "杂交条纹狼鲈",
+    "rare_weight": 8.0,
+    "super_rare_weight": 10.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "珠蚌",
+    "rare_weight": 0.19,
+    "super_rare_weight": 0.28,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "鳟鱼",
+    "rare_weight": 3.0,
+    "super_rare_weight": 5.0,
+    "standard_weight": 0.4
+  },
+  {
+    "name": "哲罗鱼",
+    "rare_weight": 50.0,
+    "super_rare_weight": 80.0,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "真柱白鲑",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.6,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "珠星三块鱼",
+    "rare_weight": 1.2,
+    "super_rare_weight": 1.5,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "竹刀鱼",
+    "rare_weight": 0.6,
+    "super_rare_weight": 0.75,
+    "standard_weight": 0.0
+  },
+  {
+    "name": "皱鳃鲨",
+    "rare_weight": 50.0,
+    "super_rare_weight": 70.0,
+    "standard_weight": 0.0
+  }
+]
+}

@@ -1,0 +1,8 @@
+mss==10.2.0
+numpy==2.5.0
+opencv_python==4.13.0.92
+Pillow==12.2.0
+pygetwindow==0.0.9
+pynput==1.8.2
+pywin32==312
+Requests==2.34.2

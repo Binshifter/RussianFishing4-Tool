@@ -1,0 +1,62 @@
+[
+  {
+    "type": "key_press",
+    "key": "Key.shift",
+    "timestamp": 0.522008
+  },
+  {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 0.947143
+  },
+  {
+    "type": "key_press",
+    "key": "s",
+    "timestamp": 5.329016
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 5.381052
+  },
+  {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 6.970028
+  },
+  {
+    "type": "key_release",
+    "key": "s",
+    "timestamp": 6.984044
+  },
+  {
+    "type": "key_press",
+    "key": "s",
+    "timestamp": 10.244118
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 10.3221
+  },
+  {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 11.911065
+  },
+  {
+    "type": "key_release",
+    "key": "s",
+    "timestamp": 11.945009
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 12.260095
+  },
+  {
+    "type": "key_release",
+    "key": "Key.shift",
+    "timestamp": 12.803991
+  }
+]

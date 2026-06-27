@@ -1,0 +1,32 @@
+[
+  {
+    "type": "key_press",
+    "key": "Key.shift",
+    "timestamp": 0.256137
+  },
+  {
+    "type": "key_press",
+    "key": "a",
+    "timestamp": 0.677153
+  },
+  {
+    "type": "key_release",
+    "key": "a",
+    "timestamp": 4.05093
+  },
+    {
+    "type": "key_press",
+    "key": "s",
+    "timestamp": 4.177153
+  },
+  {
+    "type": "key_release",
+    "key": "s",
+    "timestamp": 6.05093
+  },
+  {
+    "type": "key_release",
+    "key": "Key.shift",
+    "timestamp": 6.509005
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "key_press",
+    "key": "Key.shift",
+    "timestamp": 0.588967
+  },
+  {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 1.10594
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 9.071001
+  },
+  {
+    "type": "key_press",
+    "key": "s",
+    "timestamp": 9.814193
+  },
+  {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 10.516998
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 13.458994
+  },
+    {
+    "type": "key_press",
+    "key": "d",
+    "timestamp": 19.516998
+  },
+  {
+    "type": "key_release",
+    "key": "d",
+    "timestamp": 19.858994
+  },
+  {
+    "type": "key_release",
+    "key": "s",
+    "timestamp": 22.180996
+  },
+  {
+    "type": "key_release",
+    "key": "Key.shift",
+    "timestamp": 22.63593
+  }
+]
