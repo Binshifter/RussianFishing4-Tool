@@ -4,21 +4,21 @@
 # Source timestamp: 1970-01-01 00:00:00 UTC (0)
 
 global ctrl_pressed
-import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
-import threading
-import sys
-import time
-import io
+import json
 import os
 import random
-import json
+import sys
+import threading
+import time
+import tkinter as tk
+import traceback
+from tkinter import ttk, scrolledtext, messagebox
+
 import cv2
+import mss
 import numpy as np
 from pynput import keyboard
-import mss
-import traceback
-from datetime import datetime
+
 try:
     import input_utils as iu
 except ImportError:
@@ -36,11 +36,16 @@ try:
 except ImportError:
     print('⚠️ 未找到 rf4_assembly.py 文件，请确保该文件在同一目录下')
 from rf4_state import state
-from rf4_config import CAST_HOLD_TIME, DETECT_INTERVAL, FISH_ICON_TEMPLATE, FISH_CATCHED_TEMPLATE, FISH_MATCH_THRESHOLD, READY_MATCH_THRESHOLD, CATCHED_MATCH_THRESHOLD, READY_TEXT_1_DETECT_INTERVAL, READY_TEXT_2_DETECT_INTERVAL, DEFAULT_MAX_FISH_COUNT, MIN_CUSTOM_MAX_FISH, MAX_CUSTOM_MAX_FISH, MIN_EAT_INTERVAL, MAX_EAT_INTERVAL, EAT_KEY, RELEASE_KEY, SPACE_KEY, SHIFT_KEY, ASSEMBLY_CHECK_INTERVAL, DEVICE_UNASSEMBLED_TEMPLATE, SELL_POINT_CONFIG_FILE, BIG_REST_BASE_HOURS, BIG_REST_RANDOM_HOURS, BIG_REST_WAIT_LOGIN
+from rf4_config import CAST_HOLD_TIME, DETECT_INTERVAL, FISH_ICON_TEMPLATE, FISH_CATCHED_TEMPLATE, FISH_MATCH_THRESHOLD, READY_MATCH_THRESHOLD, CATCHED_MATCH_THRESHOLD, READY_TEXT_1_DETECT_INTERVAL, \
+    READY_TEXT_2_DETECT_INTERVAL, DEFAULT_MAX_FISH_COUNT, MIN_CUSTOM_MAX_FISH, MAX_CUSTOM_MAX_FISH, MIN_EAT_INTERVAL, MAX_EAT_INTERVAL, EAT_KEY, RELEASE_KEY, SPACE_KEY, SHIFT_KEY, \
+    ASSEMBLY_CHECK_INTERVAL, DEVICE_UNASSEMBLED_TEMPLATE, SELL_POINT_CONFIG_FILE, BIG_REST_BASE_HOURS, BIG_REST_RANDOM_HOURS
 from rf4_logger import LogRedirector
 from rf4_time_strategy import check_daily_running_time, check_continuous_running_time
-from rf4_human_simulation import simulate_rotate_view, run_simulation_actions
+from rf4_human_simulation import run_simulation_actions
+
 ctrl_pressed = False
+
+
 def _get_leader_param_list():
     """扫描引线模板文件夹，返回参数列表（如 [\'6.2\', \'8.7\', \'17.3\']）"""
     folder = rf4_assembly.LEADER_TEMPLATE_FOLDER
@@ -50,11 +55,13 @@ def _get_leader_param_list():
             if f.lower().endswith('.png'):
                 name = f.rsplit('.', 1)[0]
                 if name.startswith('leader_') and name.endswith('kg'):
-                        param = name[len('leader_'):-len('kg')]
-                        params.append(param)
+                    param = name[len('leader_'):-len('kg')]
+                    params.append(param)
     except FileNotFoundError:
         pass
     return params
+
+
 def _get_lure_param_list():
     """扫描拟饵模板文件夹，返回参数列表（如 [\'2 018\', \'4-F006\', ...]）"""
     folder = rf4_assembly.LURE_TEMPLATE_FOLDER
@@ -67,7 +74,12 @@ def _get_lure_param_list():
     except FileNotFoundError:
         pass
     return params
-MAP_NAME_MAP = {1: '马克羚诺也湖', 2: '埃尔克湖', 3: '惟有诺克河', 4: '旧奥斯特罗格湖', 5: '白河', 6: '廓里湖', 7: '梅德韦杰湖', 8: '沃尔霍夫河', 9: '北顿涅茨河', 10: '苏拉河', 11: '拉多加湖', 12: '琥珀湖', 13: '拉多加湖群岛', 14: '阿赫图巴河', 15: '铜湖', 16: '下通古斯卡河', 17: '亚马河', 18: '挪威海'}
+
+
+MAP_NAME_MAP = {1: '马克羚诺也湖', 2: '埃尔克湖', 3: '惟有诺克河', 4: '旧奥斯特罗格湖', 5: '白河', 6: '廓里湖', 7: '梅德韦杰湖', 8: '沃尔霍夫河', 9: '北顿涅茨河', 10: '苏拉河', 11: '拉多加湖',
+                12: '琥珀湖', 13: '拉多加湖群岛', 14: '阿赫图巴河', 15: '铜湖', 16: '下通古斯卡河', 17: '亚马河', 18: '挪威海'}
+
+
 def get_fish_judgment_result():
     if state.used_standard_multiplier == 0:
         print('⚡ 倍率设置为0，跳过AI判断，强制保留所有鱼（节省Token）')
@@ -81,6 +93,8 @@ def get_fish_judgment_result():
         except Exception as e:
             print(f'❌ 调用AI判断失败：{e}，兜底保留鱼')
             return {'judgment': '留下', 'reason': f'AI调用异常：{str(e)}，兜底保留', 'grade': '识别失败默认入户', 'fish_name': '未知鱼（AI异常）', 'converted_weight': 0.0}
+
+
 def set_standard_weight_multiplier(multiplier):
     if isinstance(multiplier, (int, float)) and multiplier >= 0:
         state.used_standard_multiplier = multiplier
@@ -91,6 +105,8 @@ def set_standard_weight_multiplier(multiplier):
         if 'ai_judgment' in sys.modules:
             ai_judgment.set_standard_weight_multiplier(0.0)
         print('⚠️  倍数输入不合法，默认使用0.0倍标准值')
+
+
 def check_rest_status():
     if not state.is_resting or state.is_big_resting:
         state.last_small_rest_print_time = 0
@@ -106,10 +122,10 @@ def check_rest_status():
             app.root.after(0, lambda: app.update_status_label('运行中'))
             app.root.after(0, lambda: app.status_label.config(foreground='green'))
             if state.is_sell_pending and state.pending_sell_info:
-                    print('\n📦 处理休息期间挂起的卖鱼操作...')
-                    app._execute_pending_sell()
-                    state.is_sell_pending = False
-                    state.pending_sell_info = {}
+                print('\n📦 处理休息期间挂起的卖鱼操作...')
+                app._execute_pending_sell()
+                state.is_sell_pending = False
+                state.pending_sell_info = {}
         else:
             if current_time - state.last_small_rest_print_time >= 60 or state.last_small_rest_print_time == 0:
                 remaining_m = remaining_seconds // 60
@@ -117,6 +133,8 @@ def check_rest_status():
                 print(f'\n⏳ 小休息剩余：{remaining_m}分钟{remaining_s}秒')
                 app.root.after(0, lambda: app.update_status_label(f'小休息中（剩余{remaining_m}分{remaining_s}秒）'))
                 state.last_small_rest_print_time = current_time
+
+
 def check_big_rest_status():
     if state.is_waiting_login:
         if not state.is_running:
@@ -161,6 +179,8 @@ def check_big_rest_status():
                     print(f'\n⏳ 大休息剩余：{remaining_h}小时{remaining_m}分钟{remaining_s}秒')
                     app.root.after(0, lambda: app.update_status_label(f'大休息中（剩余{remaining_h}h{remaining_m}m）'))
                     state.last_big_rest_print_time = current_time
+
+
 class RF4FishingGUI:
     def __init__(self, root):
         self.root = root
@@ -184,6 +204,7 @@ class RF4FishingGUI:
         self.stdout_redirector = LogRedirector(self.log_text)
         sys.stdout = self.stdout_redirector
         self.update_status_label('未运行')
+    
     def _create_widgets(self):
         config_frame = ttk.LabelFrame(self.root, text='基础配置', padding=8)
         config_frame.place(x=10, y=10, width=480, height=575)
@@ -341,6 +362,7 @@ class RF4FishingGUI:
         self.log_text = scrolledtext.ScrolledText(log_frame, width=110, height=15, font=('Consolas', 9))
         self.log_text.pack(fill=tk.BOTH, expand=True)
         ttk.Label(self.root, text='快捷键：Ctrl+P暂停 | Ctrl+R继续 | Ctrl+Q结束', font=('Arial', 8)).place(x=10, y=978)
+    
     def _on_auto_assemble_toggle(self):
         if self.auto_assemble_var.get():
             self.leader_param_entry.config(state='readonly')
@@ -348,6 +370,7 @@ class RF4FishingGUI:
         else:
             self.leader_param_entry.config(state=tk.DISABLED)
             self.lure_param_entry.config(state=tk.DISABLED)
+    
     def _on_auto_sell_toggle(self):
         if self.auto_sell_var.get():
             self.select_point_btn.config(state=tk.NORMAL)
@@ -365,9 +388,11 @@ class RF4FishingGUI:
             state.selected_map_id = 0
             state.selected_point_id = 0
             state.selected_coordinate = ''
+    
     def _on_timeout_relog_toggle(self):
         widget_state = tk.NORMAL if self.auto_relog_on_timeout_var.get() else tk.DISABLED
         self.max_timeout_count_entry.config(state=widget_state)
+    
     def _on_reel_mode_toggle(self):
         is_jig = self.reel_mode_var.get() == 'jig'
         is_sea = self.reel_mode_var.get() == 'sea'
@@ -378,11 +403,13 @@ class RF4FishingGUI:
         self.sea_sink_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
         self.sea_twitch_interval_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
         self.sea_twitch_duration_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
+    
     def _on_server_type_toggle(self):
         if self.server_type_var.get() == 'steam':
             state.login_button_template = 'image/login_button_steam.png'
         else:
             state.login_button_template = 'image/login_button.png'
+    
     def _select_map_and_point(self):
         try:
             with open(SELL_POINT_CONFIG_FILE, 'r', encoding='utf-8') as f:
@@ -416,6 +443,7 @@ class RF4FishingGUI:
             self.point_listbox.grid(row=1, columnspan=2, padx=10, pady=10)
             self._load_points(config, point_window)
             ttk.Button(point_window, text='确认选择', command=lambda: self._confirm_point(point_window, config)).grid(row=2, columnspan=2, pady=10)
+    
     def _load_points(self, config, window):
         self.point_listbox.delete(0, tk.END)
         try:
@@ -430,6 +458,7 @@ class RF4FishingGUI:
                     self.point_listbox.insert(tk.END, f"点位{p['point_id']} | 坐标{p['coordinate']} | {p['notes']}")
         except Exception as e:
             self.point_listbox.insert(0, f'加载点位失败：{str(e)}')
+    
     def _confirm_point(self, window, config):
         selected_idx = self.point_listbox.curselection()
         if not selected_idx:
@@ -448,6 +477,7 @@ class RF4FishingGUI:
             self.selected_point_var.set(f'{map_name} - 点位{point_id}（{state.selected_coordinate}）')
             messagebox.showinfo('选择成功', f'已选择：{map_name} | 点位{point_id} | 坐标{state.selected_coordinate}')
             window.destroy()
+    
     def update_status_label(self, status):
         self.status_var.set(status)
         if status == '运行中':
@@ -463,6 +493,7 @@ class RF4FishingGUI:
                         self.status_label.config(foreground='darkblue')
                     else:
                         self.status_label.config(foreground='red')
+    
     def update_statistics(self):
         self.total_fish_var.set(str(state.total_fish_caught))
         self.star_fish_var.set(str(state.star_fish_count))
@@ -485,6 +516,7 @@ class RF4FishingGUI:
         self.continuous_run_time_var.set(f'{c_h:02d}:{c_m:02d}:{c_s:02d}')
         if state.is_running:
             self.root.after(1000, self.update_statistics)
+    
     def _validate_time_config(self):
         try:
             daily = float(self.daily_max_hours_var.get())
@@ -511,6 +543,7 @@ class RF4FishingGUI:
         except ValueError as e:
             messagebox.showwarning('配置错误', f'时间配置异常：{e}，请输入有效数字')
             return False
+    
     def start_fishing(self):
         # ***<module>.RF4FishingGUI.start_fishing: Failure: Compilation Error
         if not self._validate_time_config():
@@ -558,7 +591,8 @@ class RF4FishingGUI:
                         raise ValueError('海钓参数必须大于0')
                     else:
                         if state.reel_mode == 'sea':
-                            print(f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
+                            print(
+                                f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
                         print(f'\n📝 加载钓鱼配置：等待鱼饵落水{state.bait_fly_time:.2f}s | 卷线{state.reel_duration:.3f}s | 停歇{state.pause_duration:.3f}s')
             except ValueError as e:
                 messagebox.showwarning('配置错误', f'钓鱼时间配置异常：{e}，请输入大于0的数字')
@@ -642,6 +676,7 @@ class RF4FishingGUI:
                 self.update_statistics()
                 print('\n✅ RF4钓鱼脚本启动成功！')
                 print('🤖 模拟人类操作、日志持久化已开启 | 快捷键：Ctrl+P/R暂停/继续，Ctrl+Q结束')
+    
     def toggle_pause(self):
         if state.is_paused:
             state.is_paused = False
@@ -654,6 +689,7 @@ class RF4FishingGUI:
             self.pause_btn.config(text='继续')
             self.update_status_label('暂停中')
             print('⏸️  脚本已暂停')
+    
     def stop_fishing(self):
         state.is_running = False
         state.is_resting = False
@@ -673,27 +709,30 @@ class RF4FishingGUI:
         self.update_status_label('已停止')
         self._print_fish_statistics()
         print('🛑 脚本已停止，所有线程回收完成！')
+    
     def _format_elapsed_time(self, elapsed_seconds):
         h = int(elapsed_seconds // 3600)
         m = int(elapsed_seconds % 3600 // 60)
         s = int(elapsed_seconds % 60)
         return f'{h:02d}:{m:02d}:{s:02d}'
+    
     def _take_screenshot(self):
         """Take a full-screen screenshot and return as grayscale array."""
         with mss.MSS() as sct:
             monitor = sct.monitors[1]
             sct_img = sct.grab(monitor)
             return cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2GRAY)
+    
     def _detect_target(self, template_path, threshold, screen_gray=None):
-        # irreducible cflow, using cdg fallback
-        # ***<module>.RF4FishingGUI._detect_target: Failure: Compilation Error
-        if screen_gray is None:
-            with mss.MSS() as sct:
-                monitor = sct.monitors[1]
-                sct_img = sct.grab(monitor)
-                screen_gray = cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2GRAY)
-        templates = [template_path] if isinstance(template_path, str) else template_path
-        for temp_path in templates:
+        try:
+            if screen_gray is None:
+                with mss.mss() as sct:
+                    monitor = sct.monitors[1]
+                    sct_img = sct.grab(monitor)
+                    screen_gray = cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2GRAY)
+            
+            templates = [template_path] if isinstance(template_path, str) else template_path
+            for temp_path in templates:
                 template = cv2.imread(temp_path, 0)
                 if template is None:
                     print(f'⚠️  模板文件不存在：{temp_path}，跳过该模板检测')
@@ -701,10 +740,11 @@ class RF4FishingGUI:
                 res = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
                 if len(np.where(res >= threshold)[0]) > 0:
                     return True
-                return False
-            # except Exception as e:
-            #     print(f'❌ 模板检测失败：{e}')
-            #     return False
+            return False
+        except Exception as e:
+            print(f'❌ 模板检测失败：{e}')
+            return False
+    
     def _find_and_click_template(self, template_path, retry=2, threshold=0.8):
         iu.activate_rf4_window()
         iu.random_sleep(0.1, 0.2)
@@ -728,6 +768,7 @@ class RF4FishingGUI:
                     iu.random_sleep(0.2, 0.4)
         print(f'❌ 未识别模板：{os.path.basename(template_path)}')
         return False
+    
     def _fast_cast_rod_action(self):
         if not state.is_running or state.is_selling_fish or state.is_resting or state.is_big_resting:
             return None
@@ -763,6 +804,7 @@ class RF4FishingGUI:
             except Exception as e:
                 print(f'❌ 抛竿失败：{e}\n{traceback.format_exc()}')
                 iu.release_all_keys()
+    
     def _normal_reel_action(self):
         if state.is_selling_fish or state.is_resting or state.is_big_resting:
             return None
@@ -773,6 +815,7 @@ class RF4FishingGUI:
                 iu.activate_rf4_window()
                 iu.mouse_down('left')
                 self._is_holding_normal_reel = True
+    
     def _jig_reel_action(self):
         if state.is_selling_fish or state.is_resting or state.is_big_resting:
             return None
@@ -789,6 +832,7 @@ class RF4FishingGUI:
             iu.mouse_up('left')
             iu.key_up(SHIFT_KEY)
             iu.random_sleep(random_pause)
+    
     def _sea_reel_action(self):
         if state.is_selling_fish or state.is_resting or state.is_big_resting or (not state.is_running):
             return None
@@ -811,70 +855,64 @@ class RF4FishingGUI:
                         self._sea_last_twitch = time.time()
     
     def _fast_reel_and_lift_action(self):
-        # 状态拦截：卖鱼/休息/停止 直接退出
         if state.is_selling_fish or state.is_resting or state.is_big_resting or (not state.is_running):
             return None
-        
+    
+    try:
         iu.activate_rf4_window()
-        
-        try:
-            if self.fast_reel_first_run:
-                iu.release_all_keys()
-                iu.key_down(SHIFT_KEY)
-                iu.mouse_down('left')
-                iu.mouse_down('right')
-                self.fast_reel_first_run = False
-                self.fast_reel_start_time = time.time()
-                self._is_holding_normal_reel = False
-            
-            # 检测快速收线60秒超时
-            if time.time() - self.fast_reel_start_time > 60:
-                print('\n⏰ 快速收线超时（>60秒）...')
-                self.fast_reel_start_time = time.time()
-                
-                if state.reel_mode == 'sea':
-                    if state.max_fast_reel_timeouts > 0:
-                        self._consecutive_fast_reel_timeouts += 1
-                        print(f'⏱️ 海钓连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
-                        if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
-                            print(f'\n⚠️ 海钓连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
-                            self._consecutive_fast_reel_timeouts = 0
-                            iu.release_all_keys()
-                            if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
-                                self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
-                            else:
-                                print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
-                else:
-                    print('重置状态...')
-                    iu.release_all_keys()
-                    self.fast_reel_first_run = True
-                    state.current_reel_state = 'normal'
-                    state.is_fish_detected = False
-                    
-                    if state.max_fast_reel_timeouts > 0:
-                        self._consecutive_fast_reel_timeouts += 1
-                        print(f'⏱️ 连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
-                        if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
-                            print(f'\n⚠️ 连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
-                            self._consecutive_fast_reel_timeouts = 0
-                            if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
-                                self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
-                            else:
-                                print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
-                return None
-            
-            # 未超时，设置为快速起鱼状态
-            state.current_reel_state = 'fast_lift'
-        
-        except Exception as e:
-            print(f'❌ 快速收线异常：{e}')
+        if self.fast_reel_first_run:
             iu.release_all_keys()
-            self.fast_reel_first_run = True
-            state.current_reel_state = 'normal'
+            iu.key_down(SHIFT_KEY)
+            iu.mouse_down('left')
+            iu.mouse_down('right')
+            self.fast_reel_first_run = False
+            self.fast_reel_start_time = time.time()
+            self._is_holding_normal_reel = False
+        
+        # 超时判断放到外层，不再嵌套在 first_run 里
+        if time.time() - self.fast_reel_start_time > 60:
+            print('\n⏰ 快速收线超时（>60秒）...')
+            self.fast_reel_start_time = time.time()
             if state.reel_mode == 'sea':
-                self._sea_state = 'sinking'
-                self._sea_sink_start = time.time()
-                
+                if state.max_fast_reel_timeouts > 0:
+                    self._consecutive_fast_reel_timeouts += 1
+                    print(f'⏱️ 海钓连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
+                    if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
+                        print(f'\n⚠️ 海钓连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
+                        self._consecutive_fast_reel_timeouts = 0
+                        iu.release_all_keys()
+                        if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
+                            self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
+                        else:
+                            print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
+            else:
+                print('重置状态...')
+                iu.release_all_keys()
+                self.fast_reel_first_run = True
+                state.current_reel_state = 'normal'
+                state.is_fish_detected = False
+                if state.max_fast_reel_timeouts > 0:
+                    self._consecutive_fast_reel_timeouts += 1
+                    print(f'⏱️ 连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
+                    if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
+                        print(f'\n⚠️ 连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
+                        self._consecutive_fast_reel_timeouts = 0
+                        if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
+                            self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
+                        else:
+                            print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
+            return
+        
+        state.current_reel_state = 'fast_lift'
+    except Exception as e:
+        print(f'❌ 快速收线异常：{e}')
+        iu.release_all_keys()
+        self.fast_reel_first_run = True
+        state.current_reel_state = 'normal'
+        if state.reel_mode == 'sea':
+            self._sea_state = 'sinking'
+            self._sea_sink_start = time.time()
+    
     def _fish_enter_house_action(self, reason, fish_name, weight):
         state.current_fish_count += 1
         weight_display = f'{weight:.3f}' if isinstance(weight, (int, float)) and weight > 0 else '未知'
@@ -905,6 +943,7 @@ class RF4FishingGUI:
         self.fast_reel_first_run = True
         state.view_offset_records = []
         state.is_view_aligning = False
+    
     def _fish_release_action(self, fish_name, weight):
         state.released_fish_count += 1
         weight_display = f'{weight:.3f}' if isinstance(weight, (int, float)) and weight > 0 else '未知'
@@ -920,6 +959,7 @@ class RF4FishingGUI:
         self.fast_reel_first_run = True
         state.view_offset_records = []
         state.is_view_aligning = False
+    
     def _print_fish_statistics(self):
         elapsed = self._format_elapsed_time(time.time() - state.start_time) if state.start_time else '00:00:00'
         daily = self._format_elapsed_time(state.daily_running_seconds)
@@ -932,6 +972,7 @@ class RF4FishingGUI:
         if state.total_fish_caught > 0:
             print(f'📈 达标率：{state.qualified_fish_count / state.total_fish_caught * 100:.2f}% | 放生率：{state.released_fish_count / state.total_fish_caught * 100:.2f}%')
         print('========================================')
+    
     def _auto_eat_action(self):
         print(f'\n🍚 自动进食启动（{MIN_EAT_INTERVAL}-{MAX_EAT_INTERVAL}秒/次，按{EAT_KEY}键）')
         while state.is_running:
@@ -946,9 +987,10 @@ class RF4FishingGUI:
                 else:
                     time.sleep(1)
             if state.is_running and (not state.is_paused) and state.is_auto_eat and (not state.is_selling_fish) and (not state.is_eat_paused) and (not state.is_resting) and (not state.is_big_resting):
-                                        iu.activate_rf4_window()
-                                        iu.key_press(EAT_KEY)
-                                        print(f'\n🍚 执行自动进食（按{EAT_KEY}键）')
+                iu.activate_rf4_window()
+                iu.key_press(EAT_KEY)
+                print(f'\n🍚 执行自动进食（按{EAT_KEY}键）')
+    
     def _start_keyboard_listener(self):
         def on_key_press(key):
             global ctrl_pressed
@@ -974,9 +1016,10 @@ class RF4FishingGUI:
                                     self.root.after(0, self.toggle_pause)
                                 else:
                                     if key == keyboard.KeyCode(char='r') and state.is_paused:
-                                            self.root.after(0, self.toggle_pause)
+                                        self.root.after(0, self.toggle_pause)
                 except:
                     pass
+        
         def on_key_release(key):
             global ctrl_pressed
             try:
@@ -984,8 +1027,10 @@ class RF4FishingGUI:
                     ctrl_pressed = False
             except:
                 pass
+        
         with keyboard.Listener(on_press=on_key_press, on_release=on_key_release) as listener:
             listener.join()
+    
     def _execute_sell_flow(self, map_id, point_id, skip_login=False):
         """提取的通用卖鱼流程：清空视角 → 设置flags → 执行 → 重置flags"""
         state.view_offset_records = []
@@ -1003,6 +1048,7 @@ class RF4FishingGUI:
         state.is_selling_fish = False
         state.is_eat_paused = False
         state.is_listen_paused = False
+    
     def _execute_pending_sell(self):
         if not state.pending_sell_info or not state.is_running:
             return None
@@ -1010,6 +1056,7 @@ class RF4FishingGUI:
             self._execute_sell_flow(state.pending_sell_info['map_id'], state.pending_sell_info['point_id'], skip_login=False)
             state.is_sell_pending = False
             state.pending_sell_info = {}
+    
     def _real_time_main_loop(self):
         print('========================================')
         print('⌨️  快捷键：Ctrl+P暂停 | Ctrl+R继续 | Ctrl+Q结束')
@@ -1035,25 +1082,25 @@ class RF4FishingGUI:
                 else:
                     check_continuous_running_time()
                     if state.is_auto_assemble and time.time() - state.last_assembly_check_time >= ASSEMBLY_CHECK_INTERVAL:
-                            print('\n🔧 检测设备组装状态...')
-                            if rf4_assembly.template_exists(DEVICE_UNASSEMBLED_TEMPLATE, rf4_assembly.TEMPLATE_THRESHOLD['device_unassembled']):
-                                print('⚠️  检测到设备未组装，执行自动装配...')
-                                iu.release_all_keys()
-                                state.is_eat_paused = True
-                                state.is_listen_paused = True
-                                state.view_offset_records = []
-                                state.is_view_aligning = False
-                                assembly_success = rf4_assembly.main_repair_flow(state.leader_param, state.lure_param)
-                                state.is_eat_paused = False
-                                state.is_listen_paused = False
-                                state.last_assembly_check_time = time.time()
-                                if assembly_success:
-                                    print('✅ 自动装配完成')
-                                else:
-                                    print('❌ 自动装配失败，请手动处理')
-                            else:
-                                print('✅ 设备已组装，无需处理')
+                        print('\n🔧 检测设备组装状态...')
+                        if rf4_assembly.template_exists(DEVICE_UNASSEMBLED_TEMPLATE, rf4_assembly.TEMPLATE_THRESHOLD['device_unassembled']):
+                            print('⚠️  检测到设备未组装，执行自动装配...')
+                            iu.release_all_keys()
+                            state.is_eat_paused = True
+                            state.is_listen_paused = True
+                            state.view_offset_records = []
+                            state.is_view_aligning = False
+                            assembly_success = rf4_assembly.main_repair_flow(state.leader_param, state.lure_param)
+                            state.is_eat_paused = False
+                            state.is_listen_paused = False
                             state.last_assembly_check_time = time.time()
+                            if assembly_success:
+                                print('✅ 自动装配完成')
+                            else:
+                                print('❌ 自动装配失败，请手动处理')
+                        else:
+                            print('✅ 设备已组装，无需处理')
+                        state.last_assembly_check_time = time.time()
                     if state.current_fish_count >= state.max_fish_count:
                         if state.is_auto_sell:
                             if state.is_resting or state.is_big_resting:
@@ -1088,7 +1135,7 @@ class RF4FishingGUI:
                     is_ready = is_ready_1 or is_ready_2
                     is_fish = False
                     if not state.is_fish_detected and time.time() - self._last_catch_time > 3:
-                            is_fish = self._detect_target(FISH_ICON_TEMPLATE, FISH_MATCH_THRESHOLD, screen_gray)
+                        is_fish = self._detect_target(FISH_ICON_TEMPLATE, FISH_MATCH_THRESHOLD, screen_gray)
                     is_catched = self._detect_target(FISH_CATCHED_TEMPLATE, CATCHED_MATCH_THRESHOLD, screen_gray)
                     if is_ready:
                         state.current_reel_state = 'normal'
@@ -1114,16 +1161,16 @@ class RF4FishingGUI:
                             state.last_rotate_view_time = time.time()
                             print('\n🧹 执行大休息流程，清空视角偏移记录')
                             state.is_big_sell_pending = False
-                            if state.is_auto_sell and state.selected_map_id!= 0 and (state.selected_point_id!= 0):
-                                        state.is_selling_fish = True
-                                        state.is_eat_paused = True
-                                        state.is_listen_paused = True
-                                        iu.release_all_keys()
-                                        time.sleep(1)
-                                        sell_fish.relog_sell_process(target_map_id=state.selected_map_id, target_point_id=state.selected_point_id, skip_login=True)
-                                        state.is_selling_fish = False
-                                        state.is_eat_paused = False
-                                        state.is_listen_paused = False
+                            if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
+                                state.is_selling_fish = True
+                                state.is_eat_paused = True
+                                state.is_listen_paused = True
+                                iu.release_all_keys()
+                                time.sleep(1)
+                                sell_fish.relog_sell_process(target_map_id=state.selected_map_id, target_point_id=state.selected_point_id, skip_login=True)
+                                state.is_selling_fish = False
+                                state.is_eat_paused = False
+                                state.is_listen_paused = False
                             big_rest_h = random.uniform(BIG_REST_BASE_HOURS - BIG_REST_RANDOM_HOURS, BIG_REST_BASE_HOURS + BIG_REST_RANDOM_HOURS)
                             big_rest_sec = big_rest_h * 3600
                             state.big_rest_end_time = time.time() + big_rest_sec
@@ -1163,7 +1210,7 @@ class RF4FishingGUI:
                                     state.current_reel_state = 'normal'
                                     state.is_fish_detected = False
                                 else:
-                                    if is_fish and state.current_reel_state!= 'fast_lift':
+                                    if is_fish and state.current_reel_state != 'fast_lift':
                                         print('🐟 侦测到中鱼，快速收线+抬竿...')
                                         self._fast_reel_and_lift_action()
                                         state.current_reel_state = 'fast_lift'
@@ -1185,7 +1232,8 @@ class RF4FishingGUI:
             iu.release_all_keys()
             self._print_fish_statistics()
             self.root.after(0, self.stop_fishing)
-            
+
+
 if __name__ == '__main__':
     if not os.path.exists('image'):
         os.makedirs('image')
