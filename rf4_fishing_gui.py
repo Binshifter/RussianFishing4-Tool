@@ -686,13 +686,12 @@ class RF4FishingGUI:
                     state.sea_sink_time = float(self.sea_sink_time_var.get())
                     state.sea_twitch_interval = float(self.sea_twitch_interval_var.get())
                     state.sea_twitch_duration = float(self.sea_twitch_duration_var.get())
-                    if any((x <= 0 for x in [state.sea_cast_duration, state.sea_sink_time, state.sea_twitch_interval, state.sea_twitch_duration])):
-                        raise ValueError('海钓参数必须大于0')
-                    else:
-                        if state.reel_mode == 'sea':
-                            print(
-                                f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
-                        print(f'\n📝 加载钓鱼配置：等待鱼饵落水{state.bait_fly_time:.2f}s | 卷线{state.reel_duration:.3f}s | 停歇{state.pause_duration:.3f}s')
+                    if state.reel_mode == 'sea':
+                        if any((x <= 0 for x in [state.sea_cast_duration, state.sea_sink_time, state.sea_twitch_interval, state.sea_twitch_duration])):
+                            raise ValueError('海钓参数必须大于0')
+                        print(
+                            f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
+                    print(f'\n📝 加载钓鱼配置：等待鱼饵落水{state.bait_fly_time:.2f}s | 卷线{state.reel_duration:.3f}s | 停歇{state.pause_duration:.3f}s')
             except ValueError as e:
                 messagebox.showwarning('配置错误', f'钓鱼时间配置异常：{e}，请输入大于0的数字')
                 return
