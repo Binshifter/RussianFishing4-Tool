@@ -466,7 +466,7 @@ class RF4FishingGUI:
         # 预设配置对应参数：(reel_duration, pause_duration, sea_sink_time, sea_twitch_interval, sea_twitch_duration, cast_delay, mode)
         presets = {
             # 默认路亚系列
-            'Spin (默认)': ('0.0', '0.0', '0', '0', '0', '6.0', 'jig'),
+            'Spin (默认)': ('0.0', '0.0', '0', '0', '0', '6.0', 'normal'),
             'Spin 带暂停': ('1.0', '3.0', '0', '0', '0', '6.0', 'jig'),
             'Spin 带提竿': ('1.0', '1.0', '0', '0', '0', '6.0', 'jig'),
             # Beluga Venga 10000 系列
@@ -679,19 +679,21 @@ class RF4FishingGUI:
                 state.bait_fly_time = float(self.bait_fly_var.get())
                 state.reel_duration = float(self.reel_duration_var.get())
                 state.pause_duration = float(self.pause_duration_var.get())
-                if any((x <= 0 for x in [state.bait_fly_time, state.reel_duration, state.pause_duration])):
-                    raise ValueError('必须大于0')
-                else:
-                    state.sea_cast_duration = float(self.sea_cast_duration_var.get())
-                    state.sea_sink_time = float(self.sea_sink_time_var.get())
-                    state.sea_twitch_interval = float(self.sea_twitch_interval_var.get())
-                    state.sea_twitch_duration = float(self.sea_twitch_duration_var.get())
-                    if state.reel_mode == 'sea':
-                        if any((x <= 0 for x in [state.sea_cast_duration, state.sea_sink_time, state.sea_twitch_interval, state.sea_twitch_duration])):
-                            raise ValueError('海钓参数必须大于0')
-                        print(
-                            f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
-                    print(f'\n📝 加载钓鱼配置：等待鱼饵落水{state.bait_fly_time:.2f}s | 卷线{state.reel_duration:.3f}s | 停歇{state.pause_duration:.3f}s')
+                if state.bait_fly_time <= 0:
+                    raise ValueError('等待鱼饵落水时间必须大于0')
+                if state.reel_mode in ('jig', 'troll'):
+                    if state.reel_duration <= 0 or state.pause_duration <= 0:
+                        raise ValueError('JIG/遛狗模式的卷线和停歇时长必须大于0')
+                state.sea_cast_duration = float(self.sea_cast_duration_var.get())
+                state.sea_sink_time = float(self.sea_sink_time_var.get())
+                state.sea_twitch_interval = float(self.sea_twitch_interval_var.get())
+                state.sea_twitch_duration = float(self.sea_twitch_duration_var.get())
+                if state.reel_mode == 'sea':
+                    if any((x <= 0 for x in [state.sea_cast_duration, state.sea_sink_time, state.sea_twitch_interval, state.sea_twitch_duration])):
+                        raise ValueError('海钓参数必须大于0')
+                    print(
+                        f'\n🌊 海钓模式：抛竿{state.sea_cast_duration:.2f}s | 沉底{state.sea_sink_time:.1f}s | 挑动间隔{state.sea_twitch_interval:.1f}s | 挑动时长{state.sea_twitch_duration:.2f}s')
+                print(f'\n📝 加载钓鱼配置：等待鱼饵落水{state.bait_fly_time:.2f}s | 卷线{state.reel_duration:.3f}s | 停歇{state.pause_duration:.3f}s')
             except ValueError as e:
                 messagebox.showwarning('配置错误', f'钓鱼时间配置异常：{e}，请输入大于0的数字')
                 return
@@ -1119,6 +1121,7 @@ class RF4FishingGUI:
                                 self.root.after(0, self.toggle_pause)
                             elif is_r and state.is_paused:
                                 self.root.after(0, self.toggle_pause)
+                            ctrl_pressed = False
                 except:
                     pass
         
