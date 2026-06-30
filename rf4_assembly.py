@@ -61,14 +61,14 @@ def template_exists(template_path, threshold = (None,)):
     if not os.path.exists(template_path):
         print(f'''❌ 模板文件不存在：{os.path.basename(template_path)}''')
         return False
-    template = None.imread(template_path, 0)
+    template = cv2.imread(template_path, 0)
     screen_gray = screen_capture()
     res = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
     max_val = cv2.minMaxLoc(res)[1]
     if max_val >= threshold:
         print(f'''🔍 检测到{os.path.basename(template_path)}（匹配度：{max_val:.2f}≥{threshold}）''')
         return True
-    None(f'''🔍 未检测到{os.path.basename(template_path)}（匹配度：{max_val:.2f}<{threshold}）''')
+    print(f'''🔍 未检测到{os.path.basename(template_path)}（匹配度：{max_val:.2f}<{threshold}）''')
     return False
 
 
@@ -77,11 +77,18 @@ def find_and_click_template(template_path, threshold):
     if not os.path.exists(template_path):
         print(f'''❌ 模板文件不存在：{os.path.basename(template_path)}''')
         return False
-    template = None.imread(template_path, 0)
+    template = cv2.imread(template_path, 0)
     screen_gray = screen_capture()
     res = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
     (min_val, max_val, min_loc, max_loc) = cv2.minMaxLoc(res)
-# WARNING: Decompyle incomplete
+    if max_val >= threshold:
+        click_x = min_loc[0] + random.randint(CLICK_OFFSET_X_RANGE[0], CLICK_OFFSET_X_RANGE[1])
+        click_y = min_loc[1] + random.randint(CLICK_OFFSET_Y_RANGE[0], CLICK_OFFSET_Y_RANGE[1])
+        iu.click_at_position(click_x, click_y)
+        print(f'''✅ 点击{os.path.basename(template_path)}（匹配度：{max_val:.2f}≥{threshold}）''')
+        return True
+    print(f'''🔍 未点击{os.path.basename(template_path)}（匹配度：{max_val:.2f}<{threshold}）''')
+    return False
 
 
 def configure_single_leader(target_param = (DEFAULT_LEADER_PARAM,)):
@@ -93,20 +100,20 @@ def configure_single_leader(target_param = (DEFAULT_LEADER_PARAM,)):
     confirm_button_path = os.path.join(TEMPLATE_ROOT, 'confirm.png')
     if not find_and_click_template(leader_option_path, TEMPLATE_THRESHOLD['leader_option']):
         return False
-    if not None(search_box_path, TEMPLATE_THRESHOLD['search_box']):
+    if not find_and_click_template(search_box_path, TEMPLATE_THRESHOLD['search_box']):
         return False
-    None.key_combo([
+    iu.key_combo([
         'ctrl',
         'a'])
     iu.random_sleep(0.5, 1)
-    iu.human_type_text(target_param, 0.1, 0.3, **('min_delay', 'max_delay'))
+    iu.human_type_text(target_param, 0.1, 0.3)
     print(f'''🔤 输入引线参数：{target_param}''')
     iu.random_sleep(1.2, 1.8)
     if not find_and_click_template(leader_template_path, TEMPLATE_THRESHOLD['leader_template']):
         return False
-    if not None(confirm_button_path, TEMPLATE_THRESHOLD['confirm_button']):
+    if not find_and_click_template(confirm_button_path, TEMPLATE_THRESHOLD['confirm_button']):
         return False
-    None(f'''✅ 引线{target_param}kg配置完成''')
+    print(f'''✅ 引线{target_param}kg配置完成''')
     iu.random_sleep(0.5, 1)
     return True
 
@@ -120,20 +127,20 @@ def configure_single_lure(target_param = (DEFAULT_LURE_PARAM,)):
     confirm_button_path = os.path.join(TEMPLATE_ROOT, 'confirm.png')
     if not find_and_click_template(lure_option_path, TEMPLATE_THRESHOLD['lure_option']):
         return False
-    if not None(search_box_path, TEMPLATE_THRESHOLD['search_box']):
+    if not find_and_click_template(search_box_path, TEMPLATE_THRESHOLD['search_box']):
         return False
-    None.key_combo([
+    iu.key_combo([
         'ctrl',
         'a'])
     iu.random_sleep(0.5, 1)
-    iu.human_type_text(target_param, 0.1, 0.3, **('min_delay', 'max_delay'))
+    iu.human_type_text(target_param, 0.1, 0.3)
     print(f'''🔤 输入拟饵参数：{target_param}''')
     iu.random_sleep(1.2, 1.8)
     if not find_and_click_template(lure_template_path, TEMPLATE_THRESHOLD['lure_template']):
         return False
-    if not None(confirm_button_path, TEMPLATE_THRESHOLD['confirm_button']):
+    if not find_and_click_template(confirm_button_path, TEMPLATE_THRESHOLD['confirm_button']):
         return False
-    None(f'''✅ 拟饵{target_param}配置完成''')
+    print(f'''✅ 拟饵{target_param}配置完成''')
     iu.random_sleep(0.5, 1)
     return True
 
@@ -182,7 +189,7 @@ def final_check_and_exit():
             iu.key_press('esc', iu.randomize_value(ESC_PRESS_BASE_DURATION), **('press_duration',))
             random_wait()
             return True
-        wait_int = None.randomize_value(EXIT_RETRY_INTERVAL)
+        wait_int = iu.randomize_value(EXIT_RETRY_INTERVAL)
         print(f'''⚠️  第{retry + 1}次检测未通过，{wait_int:.2f}秒后重试...''')
         time.sleep(wait_int)
     print(f'''❌ 经过{EXIT_RETRY_TIMES}次重试，仍有部件未配置完成，不退出界面''')
@@ -196,7 +203,7 @@ def main_repair_flow(leader_param, lure_param = (DEFAULT_LEADER_PARAM, DEFAULT_L
     iu.mouse_up('right')
     if not iu.activate_rf4_window():
         return False
-    None.release_all_keys()
+    iu.release_all_keys()
     detect_device_unassembled()
     print('\n🔧 按V键进入鱼竿配置主界面')
     iu.key_press('v', 0.2, **('press_duration',))
@@ -207,7 +214,7 @@ def main_repair_flow(leader_param, lure_param = (DEFAULT_LEADER_PARAM, DEFAULT_L
         if not repair_success:
             print('❌ 部件配置修复失败')
             return False
-        return None()
+        return final_check_and_exit()
 
 if __name__ == '__main__':
     print('========================================')

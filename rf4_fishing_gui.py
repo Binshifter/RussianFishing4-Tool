@@ -45,6 +45,9 @@ from rf4_human_simulation import run_simulation_actions
 
 ctrl_pressed = False
 
+# 确保工作目录为脚本所在目录，使相对路径模板能正确解析
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 def _get_leader_param_list():
     """扫描引线模板文件夹，返回参数列表（如 [\'6.2\', \'8.7\', \'17.3\']）"""
@@ -228,6 +231,7 @@ class RF4FishingGUI:
         ttk.Radiobutton(config_frame, text='平收', variable=self.reel_mode_var, value='normal', command=self._on_reel_mode_toggle).grid(row=4, column=1, sticky=tk.W)
         ttk.Radiobutton(config_frame, text='JIG状态', variable=self.reel_mode_var, value='jig', command=self._on_reel_mode_toggle).grid(row=4, column=2, sticky=tk.W)
         ttk.Radiobutton(config_frame, text='海钓', variable=self.reel_mode_var, value='sea', command=self._on_reel_mode_toggle).grid(row=4, column=3, sticky=tk.W)
+        ttk.Radiobutton(config_frame, text='遛狗', variable=self.reel_mode_var, value='troll', command=self._on_reel_mode_toggle).grid(row=4, column=4, sticky=tk.W)
         ttk.Label(config_frame, text='等待鱼饵落水时间(秒)：').grid(row=5, column=0, sticky=tk.W, pady=pad_y)
         self.bait_fly_var = tk.StringVar(value=str(state.bait_fly_time))
         self.bait_fly_entry = ttk.Entry(config_frame, textvariable=self.bait_fly_var, width=10)
@@ -240,6 +244,44 @@ class RF4FishingGUI:
         self.pause_duration_var = tk.StringVar(value=str(state.pause_duration))
         self.pause_duration_entry = ttk.Entry(config_frame, textvariable=self.pause_duration_var, width=10, state=tk.DISABLED)
         self.pause_duration_entry.grid(row=7, column=1, sticky=tk.W)
+        ttk.Label(config_frame, text='预设配置：').grid(row=7, column=2, sticky=tk.W, pady=pad_y)
+        self.preset_var = tk.StringVar(value='-- 选择预设 --')
+        self.preset_combo = ttk.Combobox(config_frame, textvariable=self.preset_var, width=28, state='disabled')
+        self.preset_combo['values'] = [
+            '-- 选择预设 --',
+            '=== 默认路亚 (Spin) ===',
+            'Spin (默认)',
+            'Spin 带暂停',
+            'Spin 带提竿',
+            '=== Beluga Venga 10000 系列 ===',
+            '遛狗步法 | Beluga Venga 10000',
+            '抽动钓法 | Beluga Venga 10000',
+            '跳底钓法 | Beluga Venga 10000',
+            '=== 底钓 (Bottom) ===',
+            'Bottom | c6 | Royal Picker PM98H',
+            'Bottom | c12 | Royal Picker PM98H',
+            'Bottom | c17 | Fortuna Carp 360XH',
+            'Bottom | c30 | Royal Picker PM98H',
+            'Bottom | c35 | Fortuna Carp 360XH',
+            '=== 海钓 (Pirk) ===',
+            '海钓 | c20 | 强力抽竿 | SAT Rigal 20 2S',
+            '海钓 | 34/41/55m | 移动 | SAT Rigal 20 2S',
+            '海钓 | 34/41/55m | 移动 | Reef Albacore 40 DS',
+            '海钓 | 34/41/55m | 抽竿 | SAT Rigal 20 2S',
+            '海钓 | 34/41/55m | 强力抽竿 | SAT Rigal 20 2S',
+            '海钓 | 34/41/55m | 强力抽竿 | Reef Albacore 40 DS',
+            '海钓 | 80/88m | 移动 | Reef Albacore 40 DS',
+            '海钓 | 80/88m | 强力抽竿 | Reef Albacore 40 DS',
+            '海钓 | 120/144m | 移动 | Reef Albacore 40 DS',
+            '海钓 | 120/144m | 强力抽竿 | Reef Albacore 40 DS',
+            '海钓 | 215m | 移动 | Reef Albacore 40 DS',
+            '海钓 | 215m | 强力抽竿 | Reef Albacore 40 DS',
+            '=== 浮钓 (Float) ===',
+            '比赛竿 | 静水 | c10',
+            '伸缩竿 | 流水',
+        ]
+        self.preset_combo.grid(row=7, column=3, sticky=tk.W)
+        self.preset_combo.bind('<<ComboboxSelected>>', self._on_preset_selected)
         ttk.Label(config_frame, text='  └ 海钓抛竿(秒)：').grid(row=8, column=0, sticky=tk.W, pady=pad_y)
         self.sea_cast_duration_var = tk.StringVar(value=str(state.sea_cast_duration))
         self.sea_cast_entry = ttk.Entry(config_frame, textvariable=self.sea_cast_duration_var, width=8, state=tk.DISABLED)
@@ -396,19 +438,76 @@ class RF4FishingGUI:
     def _on_reel_mode_toggle(self):
         is_jig = self.reel_mode_var.get() == 'jig'
         is_sea = self.reel_mode_var.get() == 'sea'
+        is_troll = self.reel_mode_var.get() == 'troll'
         self.bait_fly_entry.config(state=tk.DISABLED if is_sea else tk.NORMAL)
-        self.reel_duration_entry.config(state=tk.NORMAL if is_jig else tk.DISABLED)
-        self.pause_duration_entry.config(state=tk.NORMAL if is_jig else tk.DISABLED)
+        self.reel_duration_entry.config(state=tk.NORMAL if (is_jig or is_troll) else tk.DISABLED)
+        self.pause_duration_entry.config(state=tk.NORMAL if (is_jig or is_troll) else tk.DISABLED)
+        self.preset_combo.config(state='readonly' if (is_jig or is_troll) else 'disabled')
         self.sea_cast_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
         self.sea_sink_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
         self.sea_twitch_interval_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
         self.sea_twitch_duration_entry.config(state=tk.NORMAL if is_sea else tk.DISABLED)
+        # 遛狗模式默认参数
+        if is_troll:
+            self.reel_duration_var.set('0.55')
+            self.pause_duration_var.set('1.5')
+            self.preset_var.set('遛狗步法 | Beluga Venga 10000')
+        else:
+            self.preset_var.set('-- 选择预设 --')
     
     def _on_server_type_toggle(self):
         if self.server_type_var.get() == 'steam':
             state.login_button_template = 'image/login_button_steam.png'
         else:
             state.login_button_template = 'image/login_button.png'
+    
+    def _on_preset_selected(self, event=None):
+        name = self.preset_var.get()
+        # 预设配置对应参数：(reel_duration, pause_duration, sea_sink_time, sea_twitch_interval, sea_twitch_duration, cast_delay, mode)
+        presets = {
+            # 默认路亚系列
+            'Spin (默认)': ('0.0', '0.0', '0', '0', '0', '6.0', 'jig'),
+            'Spin 带暂停': ('1.0', '3.0', '0', '0', '0', '6.0', 'jig'),
+            'Spin 带提竿': ('1.0', '1.0', '0', '0', '0', '6.0', 'jig'),
+            # Beluga Venga 10000 系列
+            '遛狗步法 | Beluga Venga 10000': ('0.55', '1.5', '0', '0', '0', '6.0', 'troll'),
+            '抽动钓法 | Beluga Venga 10000': ('0.3', '1.0', '0', '0', '0', '6.0', 'troll'),
+            '跳底钓法 | Beluga Venga 10000': ('0.5', '2.0', '0', '0', '0', '6.0', 'troll'),
+            # 底钓系列
+            'Bottom | c6 | Royal Picker PM98H': ('0.0', '0.0', '0', '0', '0', '4.0', 'normal'),
+            'Bottom | c12 | Royal Picker PM98H': ('0.0', '0.0', '0', '0', '0', '4.0', 'normal'),
+            'Bottom | c17 | Fortuna Carp 360XH': ('0.0', '0.0', '0', '0', '0', '4.0', 'normal'),
+            'Bottom | c30 | Royal Picker PM98H': ('0.0', '0.0', '0', '0', '0', '4.0', 'normal'),
+            'Bottom | c35 | Fortuna Carp 360XH': ('0.0', '0.0', '0', '0', '0', '4.0', 'normal'),
+            # 海钓系列
+            '海钓 | c20 | 强力抽竿 | SAT Rigal 20 2S': ('0.0', '0.0', '10', '2.0', '0.9', '4.0', 'sea'),
+            '海钓 | 34/41/55m | 移动 | SAT Rigal 20 2S': ('0.0', '0.0', '60', '4.0', '0.0', '4.0', 'sea'),
+            '海钓 | 34/41/55m | 移动 | Reef Albacore 40 DS': ('0.0', '0.0', '60', '4.0', '0.0', '4.0', 'sea'),
+            '海钓 | 34/41/55m | 抽竿 | SAT Rigal 20 2S': ('0.0', '0.0', '60', '4.0', '0.4', '4.0', 'sea'),
+            '海钓 | 34/41/55m | 强力抽竿 | SAT Rigal 20 2S': ('0.0', '0.0', '60', '4.0', '0.9', '4.0', 'sea'),
+            '海钓 | 34/41/55m | 强力抽竿 | Reef Albacore 40 DS': ('0.0', '0.0', '60', '4.0', '0.9', '4.0', 'sea'),
+            '海钓 | 80/88m | 移动 | Reef Albacore 40 DS': ('0.0', '0.0', '60', '4.0', '0.0', '4.0', 'sea'),
+            '海钓 | 80/88m | 强力抽竿 | Reef Albacore 40 DS': ('0.0', '0.0', '60', '4.0', '0.9', '4.0', 'sea'),
+            '海钓 | 120/144m | 移动 | Reef Albacore 40 DS': ('0.0', '0.0', '100', '4.0', '0.0', '4.0', 'sea'),
+            '海钓 | 120/144m | 强力抽竿 | Reef Albacore 40 DS': ('0.0', '0.0', '100', '5.0', '0.9', '4.0', 'sea'),
+            '海钓 | 215m | 移动 | Reef Albacore 40 DS': ('0.0', '0.0', '140', '4.0', '0.0', '4.0', 'sea'),
+            '海钓 | 215m | 强力抽竿 | Reef Albacore 40 DS': ('0.0', '0.0', '140', '5.0', '0.9', '4.0', 'sea'),
+            # 浮钓系列
+            '比赛竿 | 静水 | c10': ('0.0', '0.0', '0', '0', '0', '6.0', 'normal'),
+            '伸缩竿 | 流水': ('0.0', '0.0', '0', '0', '0', '6.0', 'normal'),
+        }
+        if name in presets:
+            reel, pause, sink, twitch_int, twitch_dur, cast, mode = presets[name]
+            self.reel_mode_var.set(mode)
+            self._on_reel_mode_toggle()
+            self.reel_duration_var.set(reel)
+            self.pause_duration_var.set(pause)
+            self.sea_sink_time_var.set(sink)
+            self.sea_twitch_interval_var.set(twitch_int)
+            self.sea_twitch_duration_var.set(twitch_dur)
+            self.bait_fly_var.set(cast)
+            print(f'📋 已加载预设：{name} | 模式={mode}')
+            print(f'   卷线{reel}s | 停歇{pause}s | 沉底{sink}s | 挑动{twitch_int}s/{twitch_dur}s | 抛竿延迟{cast}s')
     
     def _select_map_and_point(self):
         try:
@@ -718,7 +817,7 @@ class RF4FishingGUI:
     
     def _take_screenshot(self):
         """Take a full-screen screenshot and return as grayscale array."""
-        with mss.MSS() as sct:
+        with mss.mss() as sct:
             monitor = sct.monitors[1]
             sct_img = sct.grab(monitor)
             return cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2GRAY)
@@ -792,6 +891,7 @@ class RF4FishingGUI:
                     iu.random_sleep(0.05, 0.1)
                     iu.mouse_down('left')
                     iu.random_sleep(iu.randomize_value(CAST_HOLD_TIME))
+                    iu.activate_rf4_window()
                     iu.mouse_up('left')
                     iu.random_sleep(0.02, 0.05)
                     iu.key_up(SHIFT_KEY)
@@ -857,61 +957,61 @@ class RF4FishingGUI:
     def _fast_reel_and_lift_action(self):
         if state.is_selling_fish or state.is_resting or state.is_big_resting or (not state.is_running):
             return None
-    
-    try:
-        iu.activate_rf4_window()
-        if self.fast_reel_first_run:
-            iu.release_all_keys()
-            iu.key_down(SHIFT_KEY)
-            iu.mouse_down('left')
-            iu.mouse_down('right')
-            self.fast_reel_first_run = False
-            self.fast_reel_start_time = time.time()
-            self._is_holding_normal_reel = False
-        
-        # 超时判断放到外层，不再嵌套在 first_run 里
-        if time.time() - self.fast_reel_start_time > 60:
-            print('\n⏰ 快速收线超时（>60秒）...')
-            self.fast_reel_start_time = time.time()
-            if state.reel_mode == 'sea':
-                if state.max_fast_reel_timeouts > 0:
-                    self._consecutive_fast_reel_timeouts += 1
-                    print(f'⏱️ 海钓连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
-                    if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
-                        print(f'\n⚠️ 海钓连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
-                        self._consecutive_fast_reel_timeouts = 0
-                        iu.release_all_keys()
-                        if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
-                            self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
-                        else:
-                            print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
-            else:
-                print('重置状态...')
+
+        try:
+            iu.activate_rf4_window()
+            if self.fast_reel_first_run:
                 iu.release_all_keys()
-                self.fast_reel_first_run = True
-                state.current_reel_state = 'normal'
-                state.is_fish_detected = False
-                if state.max_fast_reel_timeouts > 0:
-                    self._consecutive_fast_reel_timeouts += 1
-                    print(f'⏱️ 连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
-                    if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
-                        print(f'\n⚠️ 连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
-                        self._consecutive_fast_reel_timeouts = 0
-                        if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
-                            self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
-                        else:
-                            print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
-            return
-        
-        state.current_reel_state = 'fast_lift'
-    except Exception as e:
-        print(f'❌ 快速收线异常：{e}')
-        iu.release_all_keys()
-        self.fast_reel_first_run = True
-        state.current_reel_state = 'normal'
-        if state.reel_mode == 'sea':
-            self._sea_state = 'sinking'
-            self._sea_sink_start = time.time()
+                iu.key_down(SHIFT_KEY)
+                iu.mouse_down('left')
+                iu.mouse_down('right')
+                self.fast_reel_first_run = False
+                self.fast_reel_start_time = time.time()
+                self._is_holding_normal_reel = False
+
+            # 超时判断放到外层，不再嵌套在 first_run 里
+            if time.time() - self.fast_reel_start_time > 60:
+                print('\n⏰ 快速收线超时（>60秒）...')
+                self.fast_reel_start_time = time.time()
+                if state.reel_mode == 'sea':
+                    if state.max_fast_reel_timeouts > 0:
+                        self._consecutive_fast_reel_timeouts += 1
+                        print(f'⏱️ 海钓连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
+                        if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
+                            print(f'\n⚠️ 海钓连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
+                            self._consecutive_fast_reel_timeouts = 0
+                            iu.release_all_keys()
+                            if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
+                                self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
+                            else:
+                                print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
+                else:
+                    print('重置状态...')
+                    iu.release_all_keys()
+                    self.fast_reel_first_run = True
+                    state.current_reel_state = 'normal'
+                    state.is_fish_detected = False
+                    if state.max_fast_reel_timeouts > 0:
+                        self._consecutive_fast_reel_timeouts += 1
+                        print(f'⏱️ 连续超时：{self._consecutive_fast_reel_timeouts}/{state.max_fast_reel_timeouts}')
+                        if self._consecutive_fast_reel_timeouts >= state.max_fast_reel_timeouts:
+                            print(f'\n⚠️ 连续{self._consecutive_fast_reel_timeouts}次收线超时，执行重登卖鱼更换位置...')
+                            self._consecutive_fast_reel_timeouts = 0
+                            if state.is_auto_sell and state.selected_map_id != 0 and (state.selected_point_id != 0):
+                                self._execute_sell_flow(state.selected_map_id, state.selected_point_id, skip_login=False)
+                            else:
+                                print('⚠️ 自动卖鱼未开启或未选择点位，跳过重登卖鱼')
+                return
+
+            state.current_reel_state = 'fast_lift'
+        except Exception as e:
+            print(f'❌ 快速收线异常：{e}')
+            iu.release_all_keys()
+            self.fast_reel_first_run = True
+            state.current_reel_state = 'normal'
+            if state.reel_mode == 'sea':
+                self._sea_state = 'sinking'
+                self._sea_sink_start = time.time()
     
     def _fish_enter_house_action(self, reason, fish_name, weight):
         state.current_fish_count += 1
@@ -1003,7 +1103,12 @@ class RF4FishingGUI:
                         return
                     else:
                         if ctrl_pressed:
-                            if key == keyboard.KeyCode(char='q'):
+                            key_vk = getattr(key, 'vk', None)
+                            key_char = getattr(key, 'char', None)
+                            is_q = key_char == 'q' or key_vk == ord('Q')
+                            is_p = key_char == 'p' or key_vk == ord('P')
+                            is_r = key_char == 'r' or key_vk == ord('R')
+                            if is_q:
                                 print('\n🛑 接收到结束指令...')
                                 state.is_running = False
                                 state.is_selling_fish = False
@@ -1011,12 +1116,10 @@ class RF4FishingGUI:
                                 state.is_big_resting = False
                                 iu.release_all_keys()
                                 self.root.after(0, self.stop_fishing)
-                            else:
-                                if key == keyboard.KeyCode(char='p') and (not state.is_paused):
-                                    self.root.after(0, self.toggle_pause)
-                                else:
-                                    if key == keyboard.KeyCode(char='r') and state.is_paused:
-                                        self.root.after(0, self.toggle_pause)
+                            elif is_p and (not state.is_paused):
+                                self.root.after(0, self.toggle_pause)
+                            elif is_r and state.is_paused:
+                                self.root.after(0, self.toggle_pause)
                 except:
                     pass
         
@@ -1219,7 +1322,7 @@ class RF4FishingGUI:
                                         if state.current_reel_state == 'fast_lift':
                                             self._fast_reel_and_lift_action()
                                         else:
-                                            if state.reel_mode == 'jig':
+                                            if state.reel_mode == 'jig' or state.reel_mode == 'troll':
                                                 self._jig_reel_action()
                                             else:
                                                 if state.reel_mode == 'sea':
