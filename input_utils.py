@@ -97,6 +97,24 @@ def find_rf4_window():
     return user32.FindWindowA(None, b'Russian Fishing 4')
 
 
+def get_rf4_window_rect():
+    '''获取RF4游戏窗口的客户区域坐标（相对于屏幕左上角）'''
+    hwnd = find_rf4_window()
+    if not hwnd:
+        return None
+    rect = wintypes.RECT()
+    user32.GetClientRect.argtypes = (wintypes.HWND, ctypes.POINTER(wintypes.RECT))
+    user32.GetClientRect(hwnd, ctypes.byref(rect))
+    point = wintypes.POINT(0, 0)
+    user32.ClientToScreen.argtypes = (wintypes.HWND, ctypes.POINTER(wintypes.POINT))
+    user32.ClientToScreen(hwnd, ctypes.byref(point))
+    left = point.x
+    top = point.y
+    width = rect.right - rect.left
+    height = rect.bottom - rect.top
+    return (left, top, left + width, top + height)
+
+
 def activate_rf4_window():
     '''激活RF4游戏窗口（底层API，确保游戏获得输入焦点）'''
     hwnd = find_rf4_window()

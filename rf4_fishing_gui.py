@@ -48,6 +48,33 @@ ctrl_pressed = False
 # 确保工作目录为脚本所在目录，使相对路径模板能正确解析
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+# 诊断 OCR 环境，写入文件
+_diag_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gui_diag.txt')
+with open(_diag_path, 'w', encoding='utf-8') as _f:
+    _f.write(f'Python: {sys.executable}\n')
+    _f.write(f'Version: {sys.version}\n\n')
+    _f.write('--- 测试 rapidocr ---\n')
+    try:
+        from rapidocr_onnxruntime import RapidOCR
+        _f.write('rapidocr OK\n')
+        _rapidocr_ok = True
+    except Exception as e:
+        _f.write(f'rapidocr FAIL: {e}\n')
+        import traceback
+        _f.write(traceback.format_exc())
+        _rapidocr_ok = False
+    _f.write(f'\n_rapidocr_ok = {_rapidocr_ok}\n')
+
+try:
+    import rf4_ocr
+    OCR_AVAILABLE = rf4_ocr.OCR_AVAILABLE and _rapidocr_ok
+    print(f'OCR_AVAILABLE={OCR_AVAILABLE} (rf4_ocr={rf4_ocr.OCR_AVAILABLE}, rapidocr={_rapidocr_ok})')
+except Exception as e:
+    OCR_AVAILABLE = False
+    print(f'⚠️ OCR模块加载失败：{e}')
+    import traceback
+    traceback.print_exc()
+
 
 def _get_leader_param_list():
     """扫描引线模板文件夹，返回参数列表（如 [\'6.2\', \'8.7\', \'17.3\']）"""
@@ -220,7 +247,7 @@ class RF4FishingGUI:
         self.max_fish_count_entry = ttk.Entry(config_frame, textvariable=self.max_fish_count_var, width=10)
         self.max_fish_count_entry.grid(row=1, column=1, sticky=tk.W)
         ttk.Label(config_frame, text=f'（{MIN_CUSTOM_MAX_FISH}-{MAX_CUSTOM_MAX_FISH}）').grid(row=1, column=2, sticky=tk.W)
-        self.auto_eat_var = tk.BooleanVar(value=True)
+        self.auto_eat_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(config_frame, text='开启自动进食', variable=self.auto_eat_var).grid(row=2, columnspan=3, sticky=tk.W, pady=pad_y)
         ttk.Label(config_frame, text='达标重量倍数：').grid(row=3, column=0, sticky=tk.W, pady=pad_y)
         self.multiplier_var = tk.StringVar(value='0.0')
@@ -359,7 +386,7 @@ class RF4FishingGUI:
         ttk.Entry(time_frame, textvariable=self.max_rest_var, width=8).grid(row=2, column=2, sticky=tk.W)
         ttk.Label(time_frame, text='（取值范围内随机）').grid(row=3, column=0, columnspan=4, sticky=tk.W)
         control_frame = ttk.LabelFrame(self.root, text='运行控制', padding=8)
-        control_frame.place(x=500, y=10, width=480, height=490)
+        control_frame.place(x=500, y=10, width=480, height=660)
         self.start_btn = ttk.Button(control_frame, text='开始钓鱼', command=self.start_fishing, width=15)
         self.start_btn.grid(row=0, column=0, padx=5, pady=10)
         self.pause_btn = ttk.Button(control_frame, text='暂停', command=self.toggle_pause, width=15, state=tk.DISABLED)
@@ -398,13 +425,23 @@ class RF4FishingGUI:
         ttk.Label(time_stat_frame, text='本次连续运行：').grid(row=0, column=2, sticky=tk.W, padx=10)
         self.continuous_run_time_var = tk.StringVar(value='00:00:00')
         ttk.Label(time_stat_frame, textvariable=self.continuous_run_time_var).grid(row=0, column=3, sticky=tk.W)
-        ttk.Label(control_frame, text='本程序免费交流，仅供学习研究使用。付费购买的请立即退款！', foreground='red', font=('Arial', 9, 'bold')).grid(row=4, columnspan=3, sticky=tk.W, pady=(0, 5))
+        fish_record_frame = ttk.LabelFrame(control_frame, text='入户记录', padding=5)
+        fish_record_frame.grid(row=4, columnspan=3, sticky=tk.W + tk.E, pady=10)
+        self.fish_record_text = scrolledtext.ScrolledText(fish_record_frame, width=110, height=6, font=('Consolas', 9), state=tk.DISABLED)
+        self.fish_record_text.pack(fill=tk.BOTH, expand=True)
+        ttk.Label(control_frame, text='本程序免费交流，仅供学习研究使用。付费购买的请立即退款！', foreground='red', font=('Arial', 9, 'bold')).grid(row=5, columnspan=3, sticky=tk.W, pady=(0, 5))
         log_frame = ttk.LabelFrame(self.root, text='运行日志', padding=10)
         log_frame.place(x=10, y=785, width=970, height=190)
         self.log_text = scrolledtext.ScrolledText(log_frame, width=110, height=15, font=('Consolas', 9))
         self.log_text.pack(fill=tk.BOTH, expand=True)
         ttk.Label(self.root, text='快捷键：Ctrl+P暂停 | Ctrl+R继续 | Ctrl+Q结束', font=('Arial', 8)).place(x=10, y=978)
-    
+
+    def _append_fish_record(self, line):
+        self.fish_record_text.config(state=tk.NORMAL)
+        self.fish_record_text.insert(tk.END, line)
+        self.fish_record_text.see(tk.END)
+        self.fish_record_text.config(state=tk.DISABLED)
+
     def _on_auto_assemble_toggle(self):
         if self.auto_assemble_var.get():
             self.leader_param_entry.config(state='readonly')
@@ -760,6 +797,32 @@ class RF4FishingGUI:
                 state.is_sell_pending = False
                 state.pending_sell_info = {}
                 state.is_fish_detected = False
+                if OCR_AVAILABLE:
+                    try:
+                        iu.activate_rf4_window()
+                        screen_bgr = self._take_screenshot_bgr()
+                        count_result = rf4_ocr.get_fish_count_from_screen(screen_bgr)
+                        if count_result:
+                            ocr_current, ocr_max = count_result
+                            state.current_fish_count = ocr_current
+                            state.max_fish_count = ocr_max
+                            self.fish_count_var.set(str(ocr_current))
+                            self.max_fish_count_var.set(str(ocr_max))
+                            msg = f'📊 OCR同步鱼护：{ocr_current}/{ocr_max}'
+                            print(msg)
+                            self.log_text.insert(tk.END, msg + '\n')
+                        else:
+                            msg = '⚠️ OCR未识别到鱼护计数，使用手动输入值'
+                            print(msg)
+                            self.log_text.insert(tk.END, msg + '\n')
+                    except Exception as e:
+                        msg = f'⚠️ OCR同步鱼护失败：{e}，使用手动输入值'
+                        print(msg)
+                        self.log_text.insert(tk.END, msg + '\n')
+                else:
+                    msg = '⚠️ OCR模块不可用，使用手动输入的鱼护数量'
+                    print(msg)
+                    self.log_text.insert(tk.END, msg + '\n')
                 self.keyboard_thread = threading.Thread(target=self._start_keyboard_listener, daemon=True)
                 self.keyboard_thread.start()
                 self.eat_thread = threading.Thread(target=self._auto_eat_action, daemon=True)
@@ -822,6 +885,20 @@ class RF4FishingGUI:
             monitor = sct.monitors[1]
             sct_img = sct.grab(monitor)
             return cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2GRAY)
+
+    def _take_screenshot_bgr(self):
+        """截取 RF4 游戏窗口区域，返回 BGR 格式截图。"""
+        rect = iu.get_rf4_window_rect()
+        if rect:
+            left, top, right, bottom = rect
+            monitor = {'left': left, 'top': top, 'width': right - left, 'height': bottom - top}
+        else:
+            monitor = None
+        with mss.mss() as sct:
+            if monitor is None:
+                monitor = sct.monitors[1]
+            sct_img = sct.grab(monitor)
+            return cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2BGR)
     
     def _detect_target(self, template_path, threshold, screen_gray=None):
         try:
@@ -868,7 +945,41 @@ class RF4FishingGUI:
                     iu.random_sleep(0.2, 0.4)
         print(f'❌ 未识别模板：{os.path.basename(template_path)}')
         return False
-    
+
+    def _detect_text_ocr(self, keywords, screen_bgr=None, region=None):
+        """用 PP-OCRv4 ONNX 模型识别屏幕文字，替代模板匹配。
+
+        Args:
+            keywords: 要匹配的关键词列表，如 ['准备', 'Ready']
+            screen_bgr: BGR 格式截图，为 None 时自动截图
+            region: (x1, y1, x2, y2) 检测区域，为 None 时全屏检测
+
+        Returns:
+            bool: 是否检测到关键词
+        """
+        if not OCR_AVAILABLE:
+            return False
+        try:
+            if screen_bgr is None:
+                screen_bgr = self._take_screenshot_bgr()
+            if region:
+                x1, y1, x2, y2 = region
+                h, w = screen_bgr.shape[:2]
+                x1, y1 = max(0, x1), max(0, y1)
+                x2, y2 = min(w, x2), min(h, y2)
+                if x2 <= x1 or y2 <= y1:
+                    return False
+                crop = screen_bgr[y1:y2, x1:x2]
+            else:
+                crop = screen_bgr
+            matched = rf4_ocr.ocr_text(crop, keywords)
+            if matched:
+                return True
+            return False
+        except Exception as e:
+            print(f'❌ OCR 检测失败：{e}')
+            return False
+
     def _fast_cast_rod_action(self):
         if not state.is_running or state.is_selling_fish or state.is_resting or state.is_big_resting:
             return None
@@ -1017,7 +1128,11 @@ class RF4FishingGUI:
     def _fish_enter_house_action(self, reason, fish_name, weight):
         state.current_fish_count += 1
         weight_display = f'{weight:.3f}' if isinstance(weight, (int, float)) and weight > 0 else '未知'
-        print(f"✅ 【入户】{reason} | {fish_name or '未知'} | {weight_display}kg | 渔户{state.current_fish_count}/{state.max_fish_count}")
+        fish_info = f"【入户】{reason} | {fish_name or '未知'} | {weight_display}kg | 渔户{state.current_fish_count}/{state.max_fish_count}"
+        print(f"✅ {fish_info}")
+        timestamp = time.strftime('%H:%M:%S')
+        record_line = f"[{timestamp}] {fish_info}\n"
+        self.root.after(0, lambda line=record_line: self._append_fish_record(line))
         if reason in ['达标鱼', '上星鱼（稀有）', '上蓝鱼（超级稀有）', '达标鱼（倍数过滤后）', '倍率为0强制保留']:
             state.qualified_fish_count += 1
             if reason == '上星鱼（稀有）':
@@ -1044,6 +1159,30 @@ class RF4FishingGUI:
         self.fast_reel_first_run = True
         state.view_offset_records = []
         state.is_view_aligning = False
+        # 入户完成后再识别鱼护数量
+        if OCR_AVAILABLE:
+            try:
+                iu.activate_rf4_window()
+                screen_bgr = self._take_screenshot_bgr()
+                count_result = rf4_ocr.get_fish_count_from_screen(screen_bgr)
+                if count_result:
+                    ocr_current, ocr_max = count_result
+                    state.current_fish_count = ocr_current
+                    if ocr_max > 0:
+                        state.max_fish_count = ocr_max
+                    self.fish_count_var.set(str(ocr_current))
+                    self.max_fish_count_var.set(str(ocr_max))
+                    msg = f'📊 OCR识别鱼护：{ocr_current}/{ocr_max}'
+                    print(msg)
+                    self.root.after(0, lambda m=msg: self.log_text.insert(tk.END, m + '\n'))
+                else:
+                    msg = '️ OCR未识别到鱼护计数，使用累加值'
+                    print(msg)
+                    self.root.after(0, lambda m=msg: self.log_text.insert(tk.END, m + '\n'))
+            except Exception as e:
+                msg = f'️ OCR识别鱼护失败：{e}，使用累加计数'
+                print(msg)
+                self.root.after(0, lambda m=msg: self.log_text.insert(tk.END, m + '\n'))
     
     def _fish_release_action(self, fish_name, weight):
         state.released_fish_count += 1
@@ -1169,6 +1308,31 @@ class RF4FishingGUI:
         time.sleep(3)
         print('✅ 开始模板侦测，脚本正常运行！')
         print('========================================')
+        if OCR_AVAILABLE:
+            try:
+                iu.activate_rf4_window()
+                screen_bgr = self._take_screenshot_bgr()
+                count_result = rf4_ocr.get_fish_count_from_screen(screen_bgr)
+                if count_result:
+                    ocr_current, ocr_max = count_result
+                    state.current_fish_count = ocr_current
+                    state.max_fish_count = ocr_max
+                    msg = f'📊 OCR同步鱼护：{ocr_current}/{ocr_max}'
+                    print(msg)
+                    self.log_text.insert(tk.END, msg + '\n')
+                else:
+                    msg = '⚠️ OCR未识别到鱼护计数，使用手动输入值'
+                    print(msg)
+                    self.log_text.insert(tk.END, msg + '\n')
+            except Exception as e:
+                msg = f'⚠️ OCR同步鱼护失败：{e}，使用手动输入值'
+                print(msg)
+                self.log_text.insert(tk.END, msg + '\n')
+        else:
+            msg = '⚠️ OCR模块不可用，使用手动输入的鱼护数量'
+            print(msg)
+            self.log_text.insert(tk.END, msg + '\n')
+
         state.current_reel_state = 'normal'
         last_cast_time = 0
         try:
@@ -1233,11 +1397,14 @@ class RF4FishingGUI:
                     screen_gray = self._take_screenshot()
                     is_ready_1 = False
                     is_ready_2 = False
+                    ocr_ready = False
                     if time.time() - last_cast_time > READY_TEXT_1_DETECT_INTERVAL:
                         is_ready_1 = self._detect_target('image/ready_text_1.png', READY_MATCH_THRESHOLD, screen_gray)
                     if time.time() - last_cast_time > READY_TEXT_2_DETECT_INTERVAL:
                         is_ready_2 = self._detect_target('image/ready_text_2.png', READY_MATCH_THRESHOLD, screen_gray)
-                    is_ready = is_ready_1 or is_ready_2
+                    if not is_ready_1 and not is_ready_2 and OCR_AVAILABLE:
+                        ocr_ready = self._detect_text_ocr(['准备', 'Ready'], screen_bgr=self._take_screenshot_bgr())
+                    is_ready = is_ready_1 or is_ready_2 or ocr_ready
                     is_fish = False
                     if not state.is_fish_detected and time.time() - self._last_catch_time > 3:
                         is_fish = self._detect_target(FISH_ICON_TEMPLATE, FISH_MATCH_THRESHOLD, screen_gray)
@@ -1302,7 +1469,22 @@ class RF4FishingGUI:
                                     self._last_catch_time = time.time()
                                     if state.used_standard_multiplier == 0:
                                         print('\n🎣 侦测到鱼上钩，倍率0跳过AI判断，强制入户（节省Token）...')
-                                        self._fish_enter_house_action('中鱼强制入户', '未知鱼', 0.0)
+                                        if OCR_AVAILABLE:
+                                            try:
+                                                iu.activate_rf4_window()
+                                                iu.random_sleep(1, 2)
+                                                screen_bgr = self._take_screenshot_bgr()
+                                                ocr_fish_name, ocr_weight = rf4_ocr.get_fish_info_from_screen(screen_bgr)
+                                                fish_name = ocr_fish_name or '未知鱼'
+                                                weight = ocr_weight if ocr_weight is not None else 0.0
+                                            except Exception as e:
+                                                print(f'⚠️ OCR识别鱼信息失败：{e}')
+                                                fish_name = '未知鱼'
+                                                weight = 0.0
+                                        else:
+                                            fish_name = '未知鱼'
+                                            weight = 0.0
+                                        self._fish_enter_house_action('中鱼强制入户', fish_name, weight)
                                     else:
                                         print('\n🎣 侦测到鱼上钩，调用AI判断...')
                                         result = get_fish_judgment_result()
