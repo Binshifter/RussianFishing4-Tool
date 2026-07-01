@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # visit http://tool.lu/pyc/ for more information
-CAST_HOLD_TIME = 0.8
+CAST_HOLD_TIME = 1.5
 DETECT_INTERVAL = 0.3
 FISH_ICON_TEMPLATE = 'image/fish_icon.png'
 READY_TEXT_TEMPLATE = [
